@@ -9,12 +9,9 @@ class AFN
     @final_states = final_states
     @transition_function = transition_function
   end
-  
-  def simulate(message)
-    old_states = []
-    new_states = []
-    already_on = []
 
+  def new_states(current_state, symbol)
+    @transition_function[[current_state, symbol]]
   end
 
   def eclosure(states)
@@ -43,7 +40,7 @@ class AFN
     states.each do |state|
       new_states = @transition_function[[state, symbol]]
       unless new_states.nil?
-        resulting_states = resulting_states + new_states
+        resulting_states += new_states
       end
     end
     resulting_states.uniq
@@ -65,7 +62,6 @@ class AFN
     end
   end
 
-  # #{@transition_function[state[0].to_s, state[1]]}
   def to_s
     @states.product(@@symbols).map do |state|
       "#{state[0]}, #{state[1]} => #{@transition_function[[state[0].id, state[1].to_s]]}"

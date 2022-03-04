@@ -166,18 +166,48 @@ class RegularExpression
   def create_afn
     @tree.set_symbols(@symbols)
     @tree.set_afn_symbols([*@symbols, 'e'])
-    @tree.create_state
+    @afn = @tree.create_state
   end
 
   def check_string(message)
-    states = @tree.afn.eclosure(@tree.afn.starting_states.map(&:id))
+    states = @afn.eclosure(@afn.starting_states.map(&:id))
     message.each_char do |charachter|
-      states = @tree.afn.move(@tree.afn.eclosure(states), charachter)
+      states = @afn.move(@afn.eclosure(states), charachter)
     end
     puts "Revisando si la cadena '#{message}' pertenece a la expresión regular'#{@string_representation}'"
-    puts 'El oráculo ha pensado, y habiendo pensado responde a la pregunta'
-    puts "Su respuesta: #{states.intersection(@tree.afn.final_states.map(&:id)).any?}"
+    puts 'El oráculo ha pensado, y habiendo pensado ofrece una respuesta:'
+    puts '----------------------------------------------------'
+    puts states.intersection(@afn.final_states.map(&:id)).any?
+    puts '----------------------------------------------------'
     puts 'Gracias por visitar el oráculo'
+  end
+
+  
+
+  def create_subset
+    states = @afn.eclosure(@afn.starting_states.map(&:id)).sort
+    possible_names = ("A".."Z").to_a
+    afd_states = [states]
+    are_marked = [false]
+    names = ["A"]
+    transition = {}
+    until are_marked.find_index{ |state| state == false }.nil?
+      state_to_check = are_marked.find_index{ |state| state == false }
+      are_marked[state_to_check] = true
+      @symbols.each do |symbol|
+        c_states = @afn.eclosure(@afn.move(afd_states[state_to_check], symbol.to_s)).sort
+        unless afd_states.include?(c_states)
+          names << possible_names[afd_states.length]
+          afd_states << c_states
+          are_marked << false
+        end
+        name = afd_states.find_index{ |state| state == c_states }
+        transition[[names[state_to_check], symbol.to_s]] = names[name]
+      end
+    end
+    puts "#{afd_states}"
+    puts "#{transition.to_s}"
+    puts "#{names.to_s}"
   end
 
   def to_s

@@ -1,5 +1,5 @@
 class State
-  attr_accessor :incoming, :outgoing, :is_initial, :is_final, :id
+  attr_accessor :is_initial, :is_final, :id
 
   def initialize(id, is_initial, is_final)
     @id = id
