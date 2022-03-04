@@ -167,7 +167,17 @@ class RegularExpression
     @tree.set_symbols(@symbols)
     @tree.set_afn_symbols([*@symbols, 'e'])
     @tree.create_state
-    puts @tree.afn.to_s
+  end
+
+  def check_string(message)
+    states = @tree.afn.eclosure(@tree.afn.starting_states.map(&:id))
+    message.each_char do |charachter|
+      states = @tree.afn.move(@tree.afn.eclosure(states), charachter)
+    end
+    puts "Revisando si la cadena '#{message}' pertenece a la expresión regular'#{@string_representation}'"
+    puts 'El oráculo ha pensado, y habiendo pensado responde a la pregunta'
+    puts "Su respuesta: #{states.intersection(@tree.afn.final_states.map(&:id)).any?}"
+    puts 'Gracias por visitar el oráculo'
   end
 
   def to_s

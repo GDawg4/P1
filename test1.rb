@@ -5,6 +5,7 @@ require_relative "ExTree"
 
 reg_ex = RegularExpression.new("(a|b)*abb")
 reg_ex.create_thompson
+reg_ex.check_string('abb')
 
 # my_stack = []
 
