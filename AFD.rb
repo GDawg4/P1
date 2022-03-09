@@ -1,15 +1,26 @@
 require_relative 'State'
 
 class AFD
-  def initialize(states, symbols, final_states, starting_state, transition_function)
+  attr_accessor :states, :starting_states, :final_states, :transition_function
+
+  def initialize(states, starting_states, final_states, transition_function)
     @states = states
-    @symbols = symbols
+    @starting_states = starting_states
     @final_states = final_states
-    @starting_state = starting_state
     @transition_function = transition_function
   end
 
+  def set_symbols(symbols)
+    @@symbols = symbols
+  end
+
+  def move(state, symbol)
+    @transition_function[[state, symbol]]
+  end
+
   def to_s
-    'Buenas'
+    @states.product(@@symbols).map do |state|
+      "#{state[0]}, #{state[1]} => #{@transition_function[[state[0].id, state[1].to_s]]}"
+    end
   end
 end

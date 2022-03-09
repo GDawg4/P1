@@ -4,9 +4,11 @@ require_relative "RegularExpression"
 require_relative "ExTree"
 
 reg_ex = RegularExpression.new("(a|b)*abb")
-reg_ex.create_thompson
+# reg_ex.create_thompson
 # reg_ex.check_string('abb')
-reg_ex.create_subset
+# reg_ex.create_subset
+# reg_ex.check_string_afd('abba')
+reg_ex.create_direct
 
 # my_stack = []
 

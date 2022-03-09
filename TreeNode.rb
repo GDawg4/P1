@@ -18,11 +18,14 @@ class TreeNode
     @children << node
   end
 
-  def print_children
+  def print_children(space)
     if @children.any?
-      "#{@value} \n #{@children.map(&:print_children)}"
+      puts " "*space+ "#{@name} \n"
+      @children.reverse.each do |child|
+        child.print_children(space + 2)
+      end
     else
-      @name.to_s
+      puts " "*space + @name
     end
   end
 
