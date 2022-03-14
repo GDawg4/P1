@@ -10,6 +10,18 @@ class AFN
     @transition_function = transition_function
   end
 
+  def states_id
+    @states.map(&:id)
+  end
+
+  def starting_states_id
+    @starting_states.map(&:id)
+  end
+
+  def final_states_id
+    @final_states.map(&:id)
+  end
+
   def new_states(current_state, symbol)
     @transition_function[[current_state, symbol]]
   end

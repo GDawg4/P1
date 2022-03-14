@@ -27,15 +27,20 @@ class RegularExpression
     case operator
     when '*', '+'
       2
-    when '.'
-      2
-    when '#'
+    when '.', '#'
       2
     when '|'
       1
     else
       0
     end
+  end
+
+  def create_node_two(name, left_child, right_child)
+    new_root = TreeNode.new(name)
+    new_root.add_child(left_child)
+    new_root.add_child(right_child)
+    new_root
   end
 
   def create_tree(regex_representation)
@@ -60,30 +65,20 @@ class RegularExpression
           op = operators.pop
           case op.to_s
           when '*', '+'
-            new_root = TreeNode.new(operand.to_s)
             new_value = values.pop
-            new_root.add_child(new_value)
-            new_root.add_child(op)
-            values.push(new_root)
+            values.push(create_node_two(op.to_s, new_value, op))
           when '|'
-            new_root = TreeNode.new(op)
             first_value = values.pop
             second_value = values.pop
-            new_root.add_child(second_value)
-            new_root.add_child(first_value)
-            values.push(new_root)
+            values.push(create_node_two(op.to_s, second_value, first_value))
           when '.'
-            new_root = TreeNode.new(op)
             first_value = values.pop
             second_value = values.pop
-            new_root.add_child(second_value)
-            new_root.add_child(first_value)
-            values.push(new_root)
+            values.push(create_node_two(op.to_s, second_value, first_value))
           else
             puts 'Ninguno'
           end
         end
-        left = operators.pop
         new_root = TreeNode.new('()')
         new_value = values.pop
         new_root.add_child(new_value)
@@ -94,18 +89,10 @@ class RegularExpression
         current = symbol?(regex_representation[i]) && symbol?(regex_representation[i + 1]) ? '.' : regex_representation[i]
         if regex_representation[i] == '*'
           first_value = values.pop
-          new_root = TreeNode.new('*')
-          new_op = TreeNode.new('*')
-          new_root.add_child(first_value)
-          new_root.add_child(new_op)
-          values.push(new_root)
+          values.push(create_node_two('*', first_value, TreeNode.new('*')))
         elsif regex_representation[i] == '+'
           first_value = values.pop
-          new_root = TreeNode.new('+')
-          new_op = TreeNode.new('+')
-          new_root.add_child(first_value)
-          new_root.add_child(new_op)
-          values.push(new_root)
+          values.push(create_node_two('+', first_value, TreeNode.new('+')))
         else
           while operators.any? && get_precedence(operators.last.to_s) >= get_precedence(current)
             operator = operators.pop
@@ -113,19 +100,13 @@ class RegularExpression
             when '|'
               first_value = values.pop
               second_value = values.pop
-              new_op = TreeNode.new('|')
-              new_op.add_child(second_value)
-              new_op.add_child(first_value)
-              values.push(new_op)
+              values.push(create_node_two('|', second_value, first_value))
             when '.'
               first_value = values.pop
               second_value = values.pop
-              new_op = TreeNode.new('.')
-              new_op.add_child(second_value)
-              new_op.add_child(first_value)
-              values.push(new_op)
+              values.push(create_node_two('+', second_value, first_value))
             end
-            new_node = TreeNode.new(regex_representation[i])
+            # new_node = TreeNode.new(regex_representation[i])
           end
           operators.push(TreeNode.new(regex_representation[i]))
         end
@@ -142,11 +123,7 @@ class RegularExpression
       case operand.to_s
       when '*', '+'
         first_value = values.pop
-        new_root = TreeNode.new(operand.to_s)
-        new_operand = TreeNode.new(operand)
-        new_root.add_child(first_value)
-        new_root.add_child(new_operand)
-        values.push(new_root)
+        values.push(create_node_two('+', first_value, TreeNode.new(operand)))
       when '|'
         first_value = values.pop
         second_value = values.pop
@@ -154,23 +131,18 @@ class RegularExpression
         new_root.add_child(second_value)
         new_root.add_child(first_value)
         values.push(new_root)
+        values.push(create_node_two('|', second_value, first_value))
       when '.'
         first_value = values.pop
         second_value = values.pop
-        new_root = TreeNode.new(operand)
-        new_root.add_child(first_value)
-        new_root.add_child(second_value)
-        values.push(new_root)
+        values.push(create_node_two('.', first_value, second_value))
       end
     end
     values = values.reverse
     while values.length > 1
       first_value = values.pop
       second_value = values.pop
-      new_root = TreeNode.new('.')
-      new_root.add_child(second_value)
-      new_root.add_child(first_value)
-      values.push(new_root)
+      values.push(create_node_two('.', second_value, first_value))
     end
     values[0]
   end
@@ -220,17 +192,17 @@ class RegularExpression
   end
 
   def create_subset
-    states = @afn.eclosure(@afn.starting_states.map(&:id)).sort
+    states = @afn.eclosure(@afn.states_id).sort
     possible_names = ("A".."Z").to_a
     names = ["A"]
     afd_states = [states]
     are_marked = [false]
     are_initial = [true]
-    are_final = [share_elements(states, @afn.final_states.map(&:id))]
+    are_final = [share_elements(states, @afn.final_states_id)]
     transition = {}
     # puts "#{@afn.starting_states.map(&:id)}"
     # puts "#{@afn.final_states.map(&:id)}"
-    until are_marked.find_index{ |state| state == false }.nil?
+    until are_marked.find_index { |state| state == false }.nil?
       state_to_check = are_marked.find_index{ |state| state == false }
       are_marked[state_to_check] = true
       @symbols.each do |symbol|
@@ -239,14 +211,15 @@ class RegularExpression
           names << possible_names[afd_states.length]
           afd_states << c_states
           are_marked << false
-          are_initial << share_elements(c_states, @afn.starting_states.map(&:id))
-          are_final << share_elements(c_states, @afn.final_states.map(&:id))
+          are_initial << share_elements(c_states, @afn.starting_states_id)
+          are_final << share_elements(c_states, @afn.final_states_id)
         end
         name = afd_states.find_index{ |state| state == c_states }
         transition[[names[state_to_check], symbol.to_s]] = names[name]
       end
     end
-    create_afd(names, are_initial, are_final, transition)
+    @afd = create_afd(names, are_initial, are_final, transition)
+    @afd.set_symbols(@symbols)
   end
 
   def build_dfa
@@ -278,7 +251,8 @@ class RegularExpression
         transition[[names[state_to_check], symbol.to_s]] = names[name]
       end
     end
-    create_afd_direct(names, are_initial, are_final, transition)
+    @direct_afd = create_afd(names, are_initial, are_final, transition)
+    @direct_afd.set_symbols(@symbols)
   end
 
   def create_afd(states, starting_states, final_states, transition_function)
@@ -291,22 +265,7 @@ class RegularExpression
       afd_starting_states << new_state if starting_states[i]
       afd_final_states << new_state if final_states[i]
     end
-    @afd = AFD.new(afd_states, afd_starting_states, afd_final_states, transition_function)
-    @afd.set_symbols(@symbols)
-  end
-
-  def create_afd_direct(states, starting_states, final_states, transition_function)
-    afd_states = []
-    afd_starting_states = []
-    afd_final_states = []
-    states.each_with_index do |name, i|
-      new_state = State.new(name, starting_states[i], final_states[i])
-      afd_states << new_state
-      afd_starting_states << new_state if starting_states[i]
-      afd_final_states << new_state if final_states[i]
-    end
-    @direct_afd = AFD.new(afd_states, afd_starting_states, afd_final_states, transition_function)
-    @direct_afd.set_symbols(@symbols)
+    AFD.new(afd_states, afd_starting_states, afd_final_states, transition_function)
   end
 
   def check_string_afd(message)
