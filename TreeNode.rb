@@ -134,6 +134,17 @@ class TreeNode
                      { [new_initial.id, 'e'] => [afn_1.states[0].id],
                        [afn_1.states[-1].id,
                         'e'] => [new_final.id, afn_1.states[0].id] }.merge(afn_1.transition_function))
+      @afn    
+    elsif @name.to_s.eql?('?')
+      new_initial = State.new(@@node_count, true, false)
+      @@node_count += 1
+      afn_1 = @children[0].create_state
+      afn_1.no_initial
+      afn_1.no_final
+      new_final = State.new(@@node_count, false, true)
+      @@node_count += 1
+      @afn = AFN.new([new_initial, *afn_1.states, new_final], [new_initial], [new_final],
+                     { [new_initial.id, 'e'] => [afn_1.states[0].id, new_final.id] }.merge(afn_1.transition_function))
       @afn
     else
       puts @name
@@ -175,7 +186,11 @@ class TreeNode
         @nullable = false
         @nullable
       when '()'
+        @children[0].process_nullable      
+      when '?'
         @children[0].process_nullable
+        @nullable = true
+        @nullable
       else
         puts "No"
       end
@@ -196,7 +211,7 @@ class TreeNode
         @firstpos = @children[0].firstpos + @children[1].firstpos
       when '.'
         @firstpos = @children[0].nullable ? @children[0].firstpos + @children[1].firstpos : @children[0].firstpos
-      when '*', '+'
+      when '*', '+', '?'
         @firstpos = @children[0].firstpos
       when '()'
         @firstpos = @children[0].firstpos
@@ -220,7 +235,7 @@ class TreeNode
         @lastpos = @children[0].lastpos + @children[1].lastpos
       when '.'
         @lastpos = @children[1].nullable ? @children[0].lastpos + @children[1].lastpos : @children[1].lastpos
-      when '*', '+'
+      when '*', '+', '?'
         @lastpos = @children[0].lastpos
       when '()'
         @lastpos = @children[0].lastpos
@@ -235,7 +250,7 @@ class TreeNode
       @children[0].lastpos.each do |position|
         @@follow_pos[position] = (@@follow_pos[position] || []) + @children[1].firstpos
       end
-    elsif (@value.to_s == '*' || @value.to_s == '+') && @children.any?
+    elsif (@value.to_s == '*' || @value.to_s == '+' || @value.to_s == '?') && @children.any?
       @children[0].lastpos.each do |position|
         @@follow_pos[position] = (@@follow_pos[position] || []) + @children[0].firstpos
       end

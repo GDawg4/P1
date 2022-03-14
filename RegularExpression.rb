@@ -8,7 +8,7 @@ require_relative 'State'
 class RegularExpression
   def initialize(string_representation)
     @string_representation = string_representation
-    @operators = [Operator.new('*', 2), Operator.new('+', 2), Operator.new('|', 0), Operator.new('.', 1)]
+    @operators = [Operator.new('*', 2), Operator.new('+', 2), Operator.new('?', 2), Operator.new('|', 0), Operator.new('.', 1)]
     @symbols = ((string_representation.split('').uniq - ['(', ')']) - @operators.map(&:to_s)).map do |symbol|
       SymbolNew.new(symbol)
     end
@@ -25,7 +25,7 @@ class RegularExpression
 
   def get_precedence(operator)
     case operator
-    when '*', '+'
+    when '*', '+', '?'
       2
     when '.', '#'
       2
@@ -43,6 +43,10 @@ class RegularExpression
     new_root
   end
 
+  def unary?(symbol)
+    ['*', '+', '?'].include?(symbol)
+  end
+
   def create_tree(regex_representation)
     values = []
     operators = []
@@ -52,7 +56,7 @@ class RegularExpression
         # puts regex_representation[i]
         new_node = TreeNode.new(regex_representation[i])
         values.push(new_node)
-        if symbol?(regex_representation[i + 1]) || (i.positive? && (regex_representation[i - 1] == '*' || regex_representation[i - 1] == '+'))
+        if symbol?(regex_representation[i + 1]) || (i.positive? && unary?(regex_representation[i - 1]))
           operators.push(TreeNode.new('.'))
         end
         i += 1
@@ -64,7 +68,7 @@ class RegularExpression
         while operators.last.to_s != '('
           op = operators.pop
           case op.to_s
-          when '*', '+'
+          when '*', '+', '?'
             new_value = values.pop
             values.push(create_node_two(op.to_s, new_value, op))
           when '|'
@@ -93,6 +97,9 @@ class RegularExpression
         elsif regex_representation[i] == '+'
           first_value = values.pop
           values.push(create_node_two('+', first_value, TreeNode.new('+')))
+        elsif regex_representation[i] == '?'
+          first_value = values.pop
+          values.push(create_node_two('?', first_value, TreeNode.new('?')))
         else
           while operators.any? && get_precedence(operators.last.to_s) >= get_precedence(current)
             operator = operators.pop
@@ -121,17 +128,13 @@ class RegularExpression
     while operators.any?
       operand = operators.pop
       case operand.to_s
-      when '*', '+'
+      when '*', '+', '?'
         first_value = values.pop
-        values.push(create_node_two('+', first_value, TreeNode.new(operand)))
+        values.push(create_node_two(operand.to_s, first_value, TreeNode.new(operand)))
       when '|'
         first_value = values.pop
         second_value = values.pop
-        new_root = TreeNode.new(operand.to_s)
-        new_root.add_child(second_value)
-        new_root.add_child(first_value)
-        values.push(new_root)
-        values.push(create_node_two('|', second_value, first_value))
+        values.push(create_node_two('|', first_value, second_value))
       when '.'
         first_value = values.pop
         second_value = values.pop
@@ -172,12 +175,13 @@ class RegularExpression
     @tree.set_symbols(@symbols)
     @tree.set_afn_symbols([*@symbols, 'e'])
     @afn = @tree.create_state
+    puts @afn.to_s
   end
 
   def check_string(message)
     states = @afn.eclosure(@afn.starting_states.map(&:id))
     message.each_char do |charachter|
-      states = @afn.move(@afn.eclosure(states), charachter)
+      states = @afn.eclosure(@afn.move(states, charachter))
     end
     puts "Revisando si la cadena '#{message}' pertenece a la expresión regular'#{@string_representation}'"
     puts 'El oráculo no determinista ha pensado, y habiendo pensado ofrece una respuesta:'
