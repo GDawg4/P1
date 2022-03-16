@@ -15,6 +15,18 @@ class RegularExpression
     @tree_representation = nil
   end
 
+  def graph_afn
+    @graph_afn
+  end
+
+  def graph_subset
+    @graph_subset
+  end
+
+  def graph_direct
+    @graph_direct
+  end
+
   def symbol?(value)
     @symbols.map(&:to_s).include?(value)
   end
@@ -45,6 +57,30 @@ class RegularExpression
 
   def unary?(symbol)
     ['*', '+', '?'].include?(symbol)
+  end
+
+  def create_graph(transition_function)
+    states_list = []
+    edge_labels = {}
+    # puts "#{transition_function.keys}"
+    # puts "#{transition_function.values}"
+    transition_function.keys.each_with_index do |transition, i|
+      starting_state = transition[0]
+      symbol = transition[1]
+      end_states = transition_function.values[i]
+      if end_states.is_a? Array
+        end_states.each do |edge|
+          states_list << starting_state
+          states_list << edge
+          edge_labels["#{starting_state}-#{edge}"] = symbol
+        end
+      else
+        states_list << starting_state
+        states_list << end_states
+        edge_labels["#{starting_state}-#{end_states}"] = symbol
+      end
+    end
+    [states_list, edge_labels]
   end
 
   def create_tree(regex_representation)
@@ -152,7 +188,7 @@ class RegularExpression
 
   def create_thompson
     @tree = create_tree(@string_representation)
-    @tree.print_children(0)
+    # @tree.print_children(0)
     create_afn
   end
 
@@ -175,7 +211,7 @@ class RegularExpression
     @tree.set_symbols(@symbols)
     @tree.set_afn_symbols([*@symbols, 'e'])
     @afn = @tree.create_state
-    puts @afn.to_s
+    @graph_afn = create_graph(@afn.transition_function)
   end
 
   def check_string(message)
@@ -204,8 +240,6 @@ class RegularExpression
     are_initial = [true]
     are_final = [share_elements(states, @afn.final_states_id)]
     transition = {}
-    # puts "#{@afn.starting_states.map(&:id)}"
-    # puts "#{@afn.final_states.map(&:id)}"
     until are_marked.find_index { |state| state == false }.nil?
       state_to_check = are_marked.find_index{ |state| state == false }
       are_marked[state_to_check] = true
@@ -223,6 +257,8 @@ class RegularExpression
       end
     end
     @afd = create_afd(names, are_initial, are_final, transition)
+    # puts @afd.transition_function
+    @graph_subset = create_graph(@afd.transition_function)
     @afd.set_symbols(@symbols)
   end
 
@@ -256,6 +292,7 @@ class RegularExpression
       end
     end
     @direct_afd = create_afd(names, are_initial, are_final, transition)
+    @graph_direct = create_graph(@direct_afd.transition_function)
     @direct_afd.set_symbols(@symbols)
   end
 

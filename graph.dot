@@ -1,0 +1,151 @@
+digraph RGL__DirectedAdjacencyGraph {
+    11 [
+        fontsize = 8,
+        label = 11
+    ]
+
+    12 [
+        fontsize = 8,
+        label = 12
+    ]
+
+    9 [
+        fontsize = 8,
+        label = 9
+    ]
+
+    10 [
+        fontsize = 8,
+        label = 10
+    ]
+
+    7 [
+        fontsize = 8,
+        label = 7
+    ]
+
+    8 [
+        fontsize = 8,
+        label = 8
+    ]
+
+    0 [
+        fontsize = 8,
+        label = 0
+    ]
+
+    1 [
+        fontsize = 8,
+        label = 1
+    ]
+
+    6 [
+        fontsize = 8,
+        label = 6
+    ]
+
+    2 [
+        fontsize = 8,
+        label = 2
+    ]
+
+    4 [
+        fontsize = 8,
+        label = 4
+    ]
+
+    3 [
+        fontsize = 8,
+        label = 3
+    ]
+
+    5 [
+        fontsize = 8,
+        label = 5
+    ]
+
+    13 [
+        fontsize = 8,
+        label = 13
+    ]
+
+    11 -> 12 [
+        fontsize = 15,
+        label = e
+    ]
+
+    12 -> 13 [
+        fontsize = 15,
+        label = b
+    ]
+
+    9 -> 10 [
+        fontsize = 15,
+        label = e
+    ]
+
+    10 -> 11 [
+        fontsize = 15,
+        label = b
+    ]
+
+    7 -> 8 [
+        fontsize = 15,
+        label = e
+    ]
+
+    8 -> 9 [
+        fontsize = 15,
+        label = a
+    ]
+
+    0 -> 1 [
+        fontsize = 15,
+        label = e
+    ]
+
+    0 -> 7 [
+        fontsize = 15,
+        label = e
+    ]
+
+    1 -> 2 [
+        fontsize = 15,
+        label = e
+    ]
+
+    1 -> 4 [
+        fontsize = 15,
+        label = e
+    ]
+
+    6 -> 7 [
+        fontsize = 15,
+        label = e
+    ]
+
+    6 -> 1 [
+        fontsize = 15,
+        label = e
+    ]
+
+    2 -> 3 [
+        fontsize = 15,
+        label = a
+    ]
+
+    4 -> 5 [
+        fontsize = 15,
+        label = b
+    ]
+
+    3 -> 6 [
+        fontsize = 15,
+        label = e
+    ]
+
+    5 -> 6 [
+        fontsize = 15,
+        label = e
+    ]
+}
