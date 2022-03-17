@@ -232,7 +232,7 @@ class RegularExpression
   end
 
   def create_subset
-    states = @afn.eclosure(@afn.states_id).sort
+    states = @afn.eclosure(@afn.starting_states_id).sort.uniq
     possible_names = ("A".."Z").to_a
     names = ["A"]
     afd_states = [states]
@@ -244,8 +244,8 @@ class RegularExpression
       state_to_check = are_marked.find_index{ |state| state == false }
       are_marked[state_to_check] = true
       @symbols.each do |symbol|
-        c_states = @afn.eclosure(@afn.move(afd_states[state_to_check], symbol.to_s)).sort
-        unless afd_states.include?(c_states)
+        c_states = @afn.eclosure(@afn.move(afd_states[state_to_check], symbol.to_s)).sort.uniq
+        unless afd_states.include?(c_states) || c_states == []
           names << possible_names[afd_states.length]
           afd_states << c_states
           are_marked << false
@@ -253,7 +253,7 @@ class RegularExpression
           are_final << share_elements(c_states, @afn.final_states_id)
         end
         name = afd_states.find_index{ |state| state == c_states }
-        transition[[names[state_to_check], symbol.to_s]] = names[name]
+        (transition[[names[state_to_check], symbol.to_s]] = names[name]) if c_states != []
       end
     end
     @afd = create_afd(names, are_initial, are_final, transition)

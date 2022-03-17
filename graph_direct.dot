@@ -19,6 +19,26 @@ digraph RGL__DirectedAdjacencyGraph {
         label = D
     ]
 
+    E [
+        fontsize = 8,
+        label = E
+    ]
+
+    F [
+        fontsize = 8,
+        label = F
+    ]
+
+    G [
+        fontsize = 8,
+        label = G
+    ]
+
+    H [
+        fontsize = 8,
+        label = H
+    ]
+
     A -> B [
         fontsize = 15,
         label = a
@@ -29,32 +49,72 @@ digraph RGL__DirectedAdjacencyGraph {
         label = b
     ]
 
-    B -> B [
-        fontsize = 15,
-        label = a
-    ]
-
     B -> C [
         fontsize = 15,
-        label = b
-    ]
-
-    C -> B [
-        fontsize = 15,
         label = a
     ]
 
-    C -> D [
+    B -> D [
         fontsize = 15,
         label = b
     ]
 
-    D -> B [
+    C -> E [
         fontsize = 15,
         label = a
     ]
 
-    D -> A [
+    C -> F [
+        fontsize = 15,
+        label = b
+    ]
+
+    D -> G [
+        fontsize = 15,
+        label = a
+    ]
+
+    D -> H [
+        fontsize = 15,
+        label = b
+    ]
+
+    E -> E [
+        fontsize = 15,
+        label = a
+    ]
+
+    E -> F [
+        fontsize = 15,
+        label = b
+    ]
+
+    F -> G [
+        fontsize = 15,
+        label = a
+    ]
+
+    F -> H [
+        fontsize = 15,
+        label = b
+    ]
+
+    G -> C [
+        fontsize = 15,
+        label = a
+    ]
+
+    G -> D [
+        fontsize = 15,
+        label = b
+    ]
+
+    H -> B [
+        fontsize = 15,
+        label = a
+    ]
+
+    H -> A [
         fontsize = 15,
         label = b
     ]
