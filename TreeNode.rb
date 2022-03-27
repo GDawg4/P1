@@ -144,7 +144,8 @@ class TreeNode
       new_final = State.new(@@node_count, false, true)
       @@node_count += 1
       @afn = AFN.new([new_initial, *afn_1.states, new_final], [new_initial], [new_final],
-                     { [new_initial.id, 'e'] => [afn_1.states[0].id, new_final.id] }.merge(afn_1.transition_function))
+                     { [new_initial.id, 'e'] => [afn_1.states[0].id, new_final.id],
+                       [afn_1.states[-1].id, 'e'] => [new_final.id]}.merge(afn_1.transition_function))
       @afn
     else
       puts @name

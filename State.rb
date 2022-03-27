@@ -5,6 +5,7 @@ class State
     @id = id
     @is_initial = is_initial
     @is_final = is_final
+    #token_id = 5
   end
 
   def to_s

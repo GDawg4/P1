@@ -39,7 +39,7 @@ class RegularExpression
     case operator
     when '*', '+', '?'
       2
-    when '.', '#'
+    when '.'
       2
     when '|'
       1
@@ -188,7 +188,7 @@ class RegularExpression
 
   def create_thompson
     @tree = create_tree(@string_representation)
-    # @tree.print_children(0)
+    @tree.print_children(0)
     create_afn
   end
 
@@ -199,11 +199,10 @@ class RegularExpression
     @symbols.delete_at(-1)
     # @important_tree.print_children(0)
     @important_tree.process_values
-    # @important_tree.print_nullable(0)
+    @important_tree.print_nullable(0)
     @dict = @important_tree.get_dict
     @ref = @important_tree.get_refs
     @follow_pos = @important_tree.get_follow_pos
-    # @important_tree.print_name_dict
     build_dfa
   end
 
@@ -269,7 +268,7 @@ class RegularExpression
     afd_states = [states]
     are_marked = [false]
     are_initial = [true]
-    are_final = [false]
+    are_final = [states.include?(@dict.keys.max)]
     transition = {}
     until are_marked.find_index{ |state| state == false }.nil?
       state_to_check = are_marked.find_index{ |state| state == false }
@@ -280,7 +279,7 @@ class RegularExpression
           c_symbols = (c_symbols + @follow_pos[state]) if @dict[state] == symbol.to_s
         end
         c_symbols = c_symbols.uniq.sort
-        unless afd_states.include?(c_symbols)
+        unless afd_states.include?(c_symbols) || c_symbols == []
           names << possible_names[afd_states.length]
           afd_states << c_symbols
           are_marked << false
@@ -288,7 +287,7 @@ class RegularExpression
           are_final << c_symbols.include?(@dict.keys.max)
         end
         name = afd_states.find_index{ |state| state == c_symbols }
-        transition[[names[state_to_check], symbol.to_s]] = names[name]
+        transition[[names[state_to_check], symbol.to_s]] = names[name] if c_symbols != []
       end
     end
     @direct_afd = create_afd(names, are_initial, are_final, transition)
