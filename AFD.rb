@@ -3,11 +3,12 @@ require_relative 'State'
 class AFD
   attr_accessor :states, :starting_states, :final_states, :transition_function
 
-  def initialize(states, starting_states, final_states, transition_function)
+  def initialize(states, starting_states, final_states, transition_function, return_tokens)
     @states = states
     @starting_states = starting_states
     @final_states = final_states
     @transition_function = transition_function
+    @return_tokens = return_tokens
   end
 
   def set_symbols(symbols)

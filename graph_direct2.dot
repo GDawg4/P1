@@ -1,0 +1,626 @@
+digraph RGL__DirectedAdjacencyGraph {
+    A [
+        fontsize = 8,
+        label = A
+    ]
+
+    B [
+        fontsize = 8,
+        label = B
+    ]
+
+    C [
+        fontsize = 8,
+        label = C
+    ]
+
+    D [
+        fontsize = 8,
+        label = D
+    ]
+
+    E [
+        fontsize = 8,
+        label = E
+    ]
+
+    F [
+        fontsize = 8,
+        label = F
+    ]
+
+    G [
+        fontsize = 8,
+        label = G
+    ]
+
+    H [
+        fontsize = 8,
+        label = H
+    ]
+
+    I [
+        fontsize = 8,
+        label = I
+    ]
+
+    J [
+        fontsize = 8,
+        label = J
+    ]
+
+    K [
+        fontsize = 8,
+        label = K
+    ]
+
+    L [
+        fontsize = 8,
+        label = L
+    ]
+
+    M [
+        fontsize = 8,
+        label = M
+    ]
+
+    N [
+        fontsize = 8,
+        label = N
+    ]
+
+    O [
+        fontsize = 8,
+        label = O
+    ]
+
+    P [
+        fontsize = 8,
+        label = P
+    ]
+
+    Q [
+        fontsize = 8,
+        label = Q
+    ]
+
+    R [
+        fontsize = 8,
+        label = R
+    ]
+
+    S [
+        fontsize = 8,
+        label = S
+    ]
+
+    T [
+        fontsize = 8,
+        label = T
+    ]
+
+    U [
+        fontsize = 8,
+        label = U
+    ]
+
+    V [
+        fontsize = 8,
+        label = V
+    ]
+
+    W [
+        fontsize = 8,
+        label = W
+    ]
+
+    X [
+        fontsize = 8,
+        label = X
+    ]
+
+    Y [
+        fontsize = 8,
+        label = Y
+    ]
+
+    Z [
+        fontsize = 8,
+        label = Z
+    ]
+
+    [
+        fontsize = 8,
+        label = ""
+    ]
+
+    A -> B [
+        fontsize = 15,
+        label = "\""
+    ]
+
+    A -> C [
+        fontsize = 15,
+        label = Z
+    ]
+
+    B -> D [
+        fontsize = 15,
+        label = "\""
+    ]
+
+    B -> B [
+        fontsize = 15,
+        label = Z
+    ]
+
+    C -> E [
+        fontsize = 15,
+        label = Z
+    ]
+
+    C -> F [
+        fontsize = 15,
+        label = A
+    ]
+
+    C -> C [
+        fontsize = 15,
+        label = 9
+    ]
+
+    C -> G [
+        fontsize = 15,
+        label = "'"
+    ]
+
+    C -> H [
+        fontsize = 15,
+        label = "-"
+    ]
+
+    D -> I [
+        fontsize = 15,
+        label = Z
+    ]
+
+    D -> J [
+        fontsize = 15,
+        label = A
+    ]
+
+    D -> G [
+        fontsize = 15,
+        label = "'"
+    ]
+
+    D -> H [
+        fontsize = 15,
+        label = "-"
+    ]
+
+    E -> E [
+        fontsize = 15,
+        label = Z
+    ]
+
+    E -> F [
+        fontsize = 15,
+        label = A
+    ]
+
+    E -> C [
+        fontsize = 15,
+        label = 9
+    ]
+
+    E -> G [
+        fontsize = 15,
+        label = "'"
+    ]
+
+    E -> H [
+        fontsize = 15,
+        label = "-"
+    ]
+
+    F -> E [
+        fontsize = 15,
+        label = Z
+    ]
+
+    F -> F [
+        fontsize = 15,
+        label = A
+    ]
+
+    F -> K [
+        fontsize = 15,
+        label = N
+    ]
+
+    F -> C [
+        fontsize = 15,
+        label = 9
+    ]
+
+    F -> G [
+        fontsize = 15,
+        label = "'"
+    ]
+
+    F -> H [
+        fontsize = 15,
+        label = "-"
+    ]
+
+    G -> L [
+        fontsize = 15,
+        label = "\""
+    ]
+
+    G -> M [
+        fontsize = 15,
+        label = Z
+    ]
+
+    G -> N [
+        fontsize = 15,
+        label = A
+    ]
+
+    G -> G [
+        fontsize = 15,
+        label = "'"
+    ]
+
+    H -> L [
+        fontsize = 15,
+        label = "\""
+    ]
+
+    H -> O [
+        fontsize = 15,
+        label = Z
+    ]
+
+    I -> G [
+        fontsize = 15,
+        label = "'"
+    ]
+
+    J -> P [
+        fontsize = 15,
+        label = N
+    ]
+
+    J -> G [
+        fontsize = 15,
+        label = "'"
+    ]
+
+    K -> E [
+        fontsize = 15,
+        label = Z
+    ]
+
+    K -> F [
+        fontsize = 15,
+        label = A
+    ]
+
+    K -> Q [
+        fontsize = 15,
+        label = Y
+    ]
+
+    K -> C [
+        fontsize = 15,
+        label = 9
+    ]
+
+    K -> G [
+        fontsize = 15,
+        label = "'"
+    ]
+
+    K -> H [
+        fontsize = 15,
+        label = "-"
+    ]
+
+    L -> R [
+        fontsize = 15,
+        label = "\""
+    ]
+
+    L -> L [
+        fontsize = 15,
+        label = Z
+    ]
+
+    M -> S [
+        fontsize = 15,
+        label = Z
+    ]
+
+    M -> T [
+        fontsize = 15,
+        label = A
+    ]
+
+    M -> O [
+        fontsize = 15,
+        label = 9
+    ]
+
+    M -> G [
+        fontsize = 15,
+        label = "'"
+    ]
+
+    N -> S [
+        fontsize = 15,
+        label = Z
+    ]
+
+    N -> T [
+        fontsize = 15,
+        label = A
+    ]
+
+    N -> U [
+        fontsize = 15,
+        label = N
+    ]
+
+    N -> O [
+        fontsize = 15,
+        label = 9
+    ]
+
+    N -> G [
+        fontsize = 15,
+        label = "'"
+    ]
+
+    O -> S [
+        fontsize = 15,
+        label = Z
+    ]
+
+    O -> T [
+        fontsize = 15,
+        label = A
+    ]
+
+    O -> O [
+        fontsize = 15,
+        label = 9
+    ]
+
+    O -> H [
+        fontsize = 15,
+        label = "'"
+    ]
+
+    P -> G [
+        fontsize = 15,
+        label = Y
+    ]
+
+    Q -> L [
+        fontsize = 15,
+        label = "\""
+    ]
+
+    Q -> V [
+        fontsize = 15,
+        label = Z
+    ]
+
+    Q -> W [
+        fontsize = 15,
+        label = A
+    ]
+
+    Q -> C [
+        fontsize = 15,
+        label = 9
+    ]
+
+    Q -> G [
+        fontsize = 15,
+        label = "'"
+    ]
+
+    Q -> H [
+        fontsize = 15,
+        label = "-"
+    ]
+
+    R -> X [
+        fontsize = 15,
+        label = Z
+    ]
+
+    R -> Y [
+        fontsize = 15,
+        label = A
+    ]
+
+    R -> H [
+        fontsize = 15,
+        label = "'"
+    ]
+
+    S -> S [
+        fontsize = 15,
+        label = Z
+    ]
+
+    S -> T [
+        fontsize = 15,
+        label = A
+    ]
+
+    S -> O [
+        fontsize = 15,
+        label = 9
+    ]
+
+    S -> H [
+        fontsize = 15,
+        label = "'"
+    ]
+
+    T -> S [
+        fontsize = 15,
+        label = Z
+    ]
+
+    T -> T [
+        fontsize = 15,
+        label = A
+    ]
+
+    T -> Z [
+        fontsize = 15,
+        label = N
+    ]
+
+    T -> O [
+        fontsize = 15,
+        label = 9
+    ]
+
+    T -> H [
+        fontsize = 15,
+        label = "'"
+    ]
+
+    U -> S [
+        fontsize = 15,
+        label = Z
+    ]
+
+    U -> T [
+        fontsize = 15,
+        label = A
+    ]
+
+    U -> "" [
+        fontsize = 15,
+        label = Y
+    ]
+
+    U -> O [
+        fontsize = 15,
+        label = 9
+    ]
+
+    U -> H [
+        fontsize = 15,
+        label = "'"
+    ]
+
+    V -> "" [
+        fontsize = 15,
+        label = 9
+    ]
+
+    V -> G [
+        fontsize = 15,
+        label = "'"
+    ]
+
+    V -> H [
+        fontsize = 15,
+        label = "-"
+    ]
+
+    W -> "" [
+        fontsize = 15,
+        label = 9
+    ]
+
+    W -> G [
+        fontsize = 15,
+        label = "'"
+    ]
+
+    W -> H [
+        fontsize = 15,
+        label = "-"
+    ]
+
+    X -> H [
+        fontsize = 15,
+        label = "'"
+    ]
+
+    Y -> "" [
+        fontsize = 15,
+        label = N
+    ]
+
+    Y -> H [
+        fontsize = 15,
+        label = "'"
+    ]
+
+    Z -> S [
+        fontsize = 15,
+        label = Z
+    ]
+
+    Z -> T [
+        fontsize = 15,
+        label = A
+    ]
+
+    Z -> "" [
+        fontsize = 15,
+        label = Y
+    ]
+
+    Z -> O [
+        fontsize = 15,
+        label = 9
+    ]
+
+    Z -> H [
+        fontsize = 15,
+        label = "'"
+    ]
+
+    "" -> L [
+        fontsize = 15,
+        label = "\""
+    ]
+
+    "" -> S [
+        fontsize = 15,
+        label = Z
+    ]
+
+    "" -> T [
+        fontsize = 15,
+        label = A
+    ]
+
+    "" -> "" [
+        fontsize = 15,
+        label = Y
+    ]
+
+    "" -> O [
+        fontsize = 15,
+        label = 9
+    ]
+
+    "" -> H [
+        fontsize = 15,
+        label = "-"
+    ]
+}

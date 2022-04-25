@@ -7,9 +7,9 @@ require_relative 'State'
 
 class RegularExpression
   def initialize(string_representation)
-    @string_representation = string_representation
+    @string_representation = sub_sets(string_representation)
     @operators = [Operator.new('*', 2), Operator.new('+', 2), Operator.new('?', 2), Operator.new('|', 0), Operator.new('.', 1)]
-    @symbols = ((string_representation.split('').uniq - ['(', ')']) - @operators.map(&:to_s)).map do |symbol|
+    @symbols = ((@string_representation.split('').uniq - ['(', ')']) - @operators.map(&:to_s)).map do |symbol|
       SymbolNew.new(symbol)
     end
     @tree_representation = nil
@@ -88,15 +88,19 @@ class RegularExpression
     operators = []
     i = 0
     while i < regex_representation.length
+      # puts "Operators #{operators.length()} #{operators}"
+      # puts "Values #{values.length()} #{values}"
+      # puts "\nNext value #{regex_representation[i]}"
       if symbol? regex_representation[i]
         # puts regex_representation[i]
         new_node = TreeNode.new(regex_representation[i])
         values.push(new_node)
-        if symbol?(regex_representation[i + 1]) || (i.positive? && unary?(regex_representation[i - 1]))
+        if symbol?(regex_representation[i + 1]) || (i.positive? && unary?(regex_representation[i - 1])) || (i.positive? && regex_representation[i-1].to_s == ')')
           operators.push(TreeNode.new('.'))
         end
         i += 1
       elsif regex_representation[i] == '('
+        operators.push(TreeNode.new('.')) if regex_representation[[0, i - 1].max] == ')' || symbol?(regex_representation[[0, i - 1].max])
         new_node = TreeNode.new(regex_representation[i])
         operators.push(new_node)
         i += 1
@@ -115,6 +119,10 @@ class RegularExpression
             first_value = values.pop
             second_value = values.pop
             values.push(create_node_two(op.to_s, second_value, first_value))
+          # when '('
+          #   new_node = TreeNode.new('(')
+          #   operators.push(new_node)
+          #   i += 1
           else
             puts 'Ninguno'
           end
@@ -123,9 +131,10 @@ class RegularExpression
         new_value = values.pop
         new_root.add_child(new_value)
         values.push(new_root)
+        operators.pop
         i += 1
       # end
-      elsif operator?(regex_representation[i]) || (symbol?(regex_representation[i]) && symbol?(regex_representation[i + 1]))
+      elsif operator?(regex_representation[i]) || (symbol?(regex_representation[i]) && symbol?(regex_representation[i + 1])) || regex_representation[i] == '#'
         current = symbol?(regex_representation[i]) && symbol?(regex_representation[i + 1]) ? '.' : regex_representation[i]
         if regex_representation[i] == '*'
           first_value = values.pop
@@ -147,7 +156,7 @@ class RegularExpression
             when '.'
               first_value = values.pop
               second_value = values.pop
-              values.push(create_node_two('+', second_value, first_value))
+              values.push(create_node_two('.', second_value, first_value))
             end
             # new_node = TreeNode.new(regex_representation[i])
           end
@@ -158,8 +167,9 @@ class RegularExpression
         puts 'Nada'
       end
     end
-    # puts "#{values}"
-    # puts "#{operators}"
+    # puts "\nOperators final #{operators.length()} #{operators}"
+    # puts "Values final #{values.length()} #{values}"
+    # values.each {|a| puts "#{a.children_s}"}
     values = values.reverse
     while operators.any?
       operand = operators.pop
@@ -183,6 +193,8 @@ class RegularExpression
       second_value = values.pop
       values.push(create_node_two('.', second_value, first_value))
     end
+    # first_value = values.pop
+    # values.push(create_node_two('.', first_value, TreeNode.new('#')))
     values[0]
   end
 
@@ -192,23 +204,59 @@ class RegularExpression
     create_afn
   end
 
+  def sub_sets(string_to_check)
+    @sets = {
+      'letter': 'a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z|A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z',
+      'digit': '0|1|2|3|4|5|6|7|8|9'
+    }
+    @basic_sets = {
+      'TokenDecl': 'TOKENS(empty)',
+      'KeyDecl': 'KEYWORDS(empty)',
+      'CharsDecl': 'CHARACHTERS(empty)SetDecl*',
+      'SetDecl': 'ident=Set;(empty)',
+      'Set': 'BasicSea((>|<)BasicSea)*',
+      'BasicSea': "string|ident|char|ANY",
+      'ident': 'letter(letter|digit)*',
+      'number': 'digit(digit)*',
+      'string': '"(letter|digit)*"',
+      'char': '\'letter\'',
+      'letter': 'a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z|A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z',
+      'digit': '0|1|2|3|4|5|6|7|8|9',
+      'empty': "( |\n)*"
+    }
+    new_string = string_to_check
+    # @basic_sets.each do |key, value|
+    #   new_string = new_string.gsub(key.to_s, "(#{value})")
+    # end
+    new_string
+  end
+
   def create_direct
-    important_symbol = SymbolNew.new('#')
-    @symbols << important_symbol
-    @important_tree = create_tree(@string_representation << '#')
-    @symbols.delete_at(-1)
+    # important_symbol = SymbolNew.new('#')
+    # @symbols << important_symbol
+    temp = sub_sets(@string_representation)
+    @important_tree = create_tree(temp)
+    # @symbols.delete_at(-1)
     # @important_tree.print_children(0)
     @important_tree.process_values
-    @important_tree.print_nullable(0)
     @dict = @important_tree.get_dict
     @ref = @important_tree.get_refs
+    @return_pos = {}
+    found_return = 0
+    @dict.each do |key, value|
+      if value == '#'
+        @return_pos[key] = found_return
+        found_return += 1
+      end
+    end
+    # puts @return_pos
     @follow_pos = @important_tree.get_follow_pos
     build_dfa
   end
 
   def create_afn
     @tree.set_symbols(@symbols)
-    @tree.set_afn_symbols([*@symbols, 'e'])
+    @tree.set_afn_symbols([*@symbols, 'ε'])
     @afn = @tree.create_state
     @graph_afn = create_graph(@afn.transition_function)
   end
@@ -263,12 +311,17 @@ class RegularExpression
 
   def build_dfa
     states = @important_tree.firstpos.sort
-    possible_names = ("A".."Z").to_a
+    possible_names = ("AA".."ZZ").to_a
     names = ["A"]
     afd_states = [states]
     are_marked = [false]
     are_initial = [true]
-    are_final = [states.include?(@dict.keys.max)]
+    final_symbols = []
+    @dict.each do |key, value|
+      final_symbols << key if value == '#'
+    end
+    are_final = [(states & final_symbols).any?]
+    return_states = [(states & final_symbols)[0]]
     transition = {}
     until are_marked.find_index{ |state| state == false }.nil?
       state_to_check = are_marked.find_index{ |state| state == false }
@@ -276,7 +329,7 @@ class RegularExpression
       @symbols.each do |symbol|
         c_symbols = []
         afd_states[state_to_check].each do |state|
-          c_symbols = (c_symbols + @follow_pos[state]) if @dict[state] == symbol.to_s
+          c_symbols = (c_symbols + (@follow_pos[state] || [])) if @dict[state] == symbol.to_s
         end
         c_symbols = c_symbols.uniq.sort
         unless afd_states.include?(c_symbols) || c_symbols == []
@@ -284,28 +337,36 @@ class RegularExpression
           afd_states << c_symbols
           are_marked << false
           are_initial << false
-          are_final << c_symbols.include?(@dict.keys.max)
+          are_final << (c_symbols & final_symbols).any?
+          return_states << (c_symbols & final_symbols)[0]
         end
         name = afd_states.find_index{ |state| state == c_symbols }
         transition[[names[state_to_check], symbol.to_s]] = names[name] if c_symbols != []
       end
     end
-    @direct_afd = create_afd(names, are_initial, are_final, transition)
+    # puts "Names #{names}"
+    # puts "Are final #{are_final}"
+    return_states = return_states.map do |state|
+      state.nil? ? nil : @return_pos[state]
+    end
+    # puts "Final symbols #{return_states}"
+    @direct_afd = create_afd(names, are_initial, are_final, transition, return_states)
     @graph_direct = create_graph(@direct_afd.transition_function)
     @direct_afd.set_symbols(@symbols)
   end
 
-  def create_afd(states, starting_states, final_states, transition_function)
+  def create_afd(states, starting_states, final_states, transition_function, return_tokens)
     afd_states = []
     afd_starting_states = []
     afd_final_states = []
     states.each_with_index do |name, i|
-      new_state = State.new(name, starting_states[i], final_states[i])
+      new_state = State.new(name, starting_states[i], final_states[i], return_tokens[i])
       afd_states << new_state
       afd_starting_states << new_state if starting_states[i]
       afd_final_states << new_state if final_states[i]
     end
-    AFD.new(afd_states, afd_starting_states, afd_final_states, transition_function)
+    @return_tokens = Hash[[states, return_tokens].transpose]
+    AFD.new(afd_states, afd_starting_states, afd_final_states, transition_function, return_tokens)
   end
 
   def check_string_afd(message)
@@ -323,15 +384,31 @@ class RegularExpression
 
   def check_string_direct(message)
     state = @direct_afd.starting_states[0].id
-    message.each_char do |charachter|
-      state = @direct_afd.move(state, charachter)
+    i = 0
+    found_tokens = []
+    last_found = 0
+    while i < message.length
+      string_to_check = message[i]
+      new_state = @direct_afd.move(state, string_to_check)
+      # puts "String: '#{string_to_check}' in state #{state} to #{new_state}"
+      if new_state.nil?
+        # puts "Last found: #{last_found} i:#{i}"
+        if i - last_found == 1
+          # puts "Stopped at token: '#{message[last_found]}' to number: #{@return_tokens[state]}"
+          found_tokens.push([message[last_found], @return_tokens[state]])
+        else
+          # puts "Stopped at token2: '#{message[last_found..i-1]}' to number: #{@return_tokens[state]}"
+          found_tokens.push([message[last_found..i-1], @return_tokens[state]])
+        end 
+        state = @direct_afd.starting_states[0].id
+        last_found = i
+      else
+        state = new_state
+        i += 1
+      end
     end
-    puts "Revisando si la cadena '#{message}' pertenece a la expresión regular'#{@string_representation}'"
-    puts 'El oráculo creado con método directo ha pensado, y habiendo pensado ofrece una respuesta:'
-    puts '----------------------------------------------------'
-    puts @direct_afd.final_states.map(&:id).include?(state)
-    puts '----------------------------------------------------'
-    puts 'Gracias por visitar el oráculo \n'
+    found_tokens.push([message[last_found..-1], @return_tokens[state]])
+    # puts "#{found_tokens}"
   end
 
   def to_s

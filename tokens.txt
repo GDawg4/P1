@@ -1,0 +1,13 @@
+COMPILER*0& *12&Ejemplo*7&
+*12&CHARACTERS*1&
+*12&letter*7& *12&=*10& *12&"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"*13&;*9&
+*12&digit*7& *12&=*10& *12&"0123456789"*13&;*9&
+*12&hexdigit*7& *12&=*10& *12&digit*7&>*14&"ABCDEF"*13&;*9&
+*12&KEYWORDS*2&
+*12&if*7&=*10&"if"*13&;*9&
+*12&while*7&=*10&"while"*13&;*9&
+*12&TOKENS*3&
+*12&id*7& *12&=*10& *12&letter*7&{*15&letter*7&}*16& *12&EXCEPT*6& *12&KEYWORDS*2&;*9&
+*12&number*7& *12&=*10& *12&digit*7&{*15&digit*7&}*16&;*9&
+*12&PRODUCTIONS*4&
+*12&END*5& *12&Ejemplo*7

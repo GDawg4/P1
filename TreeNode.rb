@@ -96,10 +96,10 @@ class TreeNode
       new_final = State.new(@@node_count, false, true)
       @@node_count += 1
       @afn = AFN.new([new_initial, *afn_1.states, *afn_2.states, new_final], [new_initial], [new_final],
-                     { [new_initial.id, 'e'] => [afn_1.states[0].id, afn_2.states[0].id],
-                       [afn_1.states[-1].id, 'e'] => [new_final.id],
+                     { [new_initial.id, 'ε'] => [afn_1.states[0].id, afn_2.states[0].id],
+                       [afn_1.states[-1].id, 'ε'] => [new_final.id],
                        [afn_2.states[-1].id,
-                        'e'] => [new_final.id] }.merge(afn_1.transition_function).merge(afn_2.transition_function))
+                        'ε'] => [new_final.id] }.merge(afn_1.transition_function).merge(afn_2.transition_function))
       @afn
     elsif @name.to_s.eql?('.')
       afn_1 = @children[0].create_state
@@ -107,7 +107,7 @@ class TreeNode
       afn_2.no_initial
       afn_1.no_final
       @afn = AFN.new([*afn_1.states, *afn_2.states], [afn_1.states[0]], [afn_2.states[-1]],
-                     { [afn_1.states[-1].id, 'e'] => [afn_2.states[0].id] }.merge(afn_1.transition_function).merge(afn_2.transition_function))
+                     { [afn_1.states[-1].id, 'ε'] => [afn_2.states[0].id] }.merge(afn_1.transition_function).merge(afn_2.transition_function))
       @afn
     elsif @name.to_s.eql?('*')
       new_initial = State.new(@@node_count, true, false)
@@ -118,9 +118,9 @@ class TreeNode
       new_final = State.new(@@node_count, false, true)
       @@node_count += 1
       @afn = AFN.new([new_initial, *afn_1.states, new_final], [new_initial], [new_final],
-                     { [new_initial.id, 'e'] => [afn_1.states[0].id, new_final.id],
+                     { [new_initial.id, 'ε'] => [afn_1.states[0].id, new_final.id],
                        [afn_1.states[-1].id,
-                        'e'] => [new_final.id, afn_1.states[0].id] }.merge(afn_1.transition_function))
+                        'ε'] => [new_final.id, afn_1.states[0].id] }.merge(afn_1.transition_function))
       @afn
     elsif @name.to_s.eql?('+')
       new_initial = State.new(@@node_count, true, false)
@@ -131,9 +131,9 @@ class TreeNode
       new_final = State.new(@@node_count, false, true)
       @@node_count += 1
       @afn = AFN.new([new_initial, *afn_1.states, new_final], [new_initial], [new_final],
-                     { [new_initial.id, 'e'] => [afn_1.states[0].id],
+                     { [new_initial.id, 'ε'] => [afn_1.states[0].id],
                        [afn_1.states[-1].id,
-                        'e'] => [new_final.id, afn_1.states[0].id] }.merge(afn_1.transition_function))
+                        'ε'] => [new_final.id, afn_1.states[0].id] }.merge(afn_1.transition_function))
       @afn    
     elsif @name.to_s.eql?('?')
       new_initial = State.new(@@node_count, true, false)
@@ -144,8 +144,8 @@ class TreeNode
       new_final = State.new(@@node_count, false, true)
       @@node_count += 1
       @afn = AFN.new([new_initial, *afn_1.states, new_final], [new_initial], [new_final],
-                     { [new_initial.id, 'e'] => [afn_1.states[0].id, new_final.id],
-                       [afn_1.states[-1].id, 'e'] => [new_final.id]}.merge(afn_1.transition_function))
+                     { [new_initial.id, 'ε'] => [afn_1.states[0].id, new_final.id],
+                       [afn_1.states[-1].id, 'ε'] => [new_final.id]}.merge(afn_1.transition_function))
       @afn
     else
       puts @name
@@ -163,7 +163,7 @@ class TreeNode
 
   def process_nullable
     if @children.empty?
-      @nullable = (@value == 'e')
+      @nullable = (@value == 'ε')
       @nullable
     elsif @children.length == 1
       @nullable = @children[0].process_nullable
@@ -200,7 +200,7 @@ class TreeNode
 
   def process_firstpos
     if @children.empty?
-      @firstpos = @value == 'e' ? [] : [@id]
+      @firstpos = @value == 'ε' ? [] : [@id]
       @firstpos
     elsif @children.length == 1
       @firstpos = @children[0].process_firstpos
@@ -224,7 +224,7 @@ class TreeNode
 
   def process_lastpos
     if @children.empty?
-      @lastpos = @value == 'e' ? [] : [@id]
+      @lastpos = @value == 'ε' ? [] : [@id]
       @lastpos
     elsif @children.length == 1
       @lastpos = @children[0].process_lastpos
@@ -274,6 +274,10 @@ class TreeNode
     if children.any?
       children.each(&:process_ref)
     end
+  end
+
+  def children_s
+    "#{@value} #{@children.map(&:children_s)}"
   end
 
   def values_s
