@@ -84,7 +84,7 @@ class TreeNode
     elsif @children.length == 1
       # puts "just one #{@children[0].create_state.to_s}"
       @children[0].create_state
-    elsif @name.to_s.eql?('|')
+    elsif @name.to_s.eql?('%')
       new_initial = State.new(@@node_count, true, false)
       @@node_count += 1
       afn_1 = @children[0].create_state
@@ -101,7 +101,7 @@ class TreeNode
                        [afn_2.states[-1].id,
                         'ε'] => [new_final.id] }.merge(afn_1.transition_function).merge(afn_2.transition_function))
       @afn
-    elsif @name.to_s.eql?('.')
+    elsif @name.to_s.eql?(';')
       afn_1 = @children[0].create_state
       afn_2 = @children[1].create_state
       afn_2.no_initial
@@ -109,7 +109,7 @@ class TreeNode
       @afn = AFN.new([*afn_1.states, *afn_2.states], [afn_1.states[0]], [afn_2.states[-1]],
                      { [afn_1.states[-1].id, 'ε'] => [afn_2.states[0].id] }.merge(afn_1.transition_function).merge(afn_2.transition_function))
       @afn
-    elsif @name.to_s.eql?('*')
+    elsif @name.to_s.eql?(':')
       new_initial = State.new(@@node_count, true, false)
       @@node_count += 1
       afn_1 = @children[0].create_state
@@ -122,7 +122,7 @@ class TreeNode
                        [afn_1.states[-1].id,
                         'ε'] => [new_final.id, afn_1.states[0].id] }.merge(afn_1.transition_function))
       @afn
-    elsif @name.to_s.eql?('+')
+    elsif @name.to_s.eql?('@')
       new_initial = State.new(@@node_count, true, false)
       @@node_count += 1
       afn_1 = @children[0].create_state
@@ -170,23 +170,23 @@ class TreeNode
       @nullable
     else
       case @value.to_s
-      when '|'
+      when '%'
         @nullable = @children[0].process_nullable || @children[1].process_nullable
         @nullable
-      when '.'
+      when ';'
         child0 = @children[0].process_nullable
         child1 = @children[1].process_nullable
         @nullable = child0 && child1
         @nullable
-      when '*'
+      when ':'
         @children[0].process_nullable
         @nullable = true
         @nullable      
-      when '+'
+      when '@'
         @children[0].process_nullable
         @nullable = false
         @nullable
-      when '()'
+      when '<>'
         @children[0].process_nullable      
       when '?'
         @children[0].process_nullable
@@ -208,13 +208,13 @@ class TreeNode
     else
       @children.each(&:process_firstpos)
       case @value.to_s
-      when '|'
+      when '%'
         @firstpos = @children[0].firstpos + @children[1].firstpos
-      when '.'
+      when ';'
         @firstpos = @children[0].nullable ? @children[0].firstpos + @children[1].firstpos : @children[0].firstpos
-      when '*', '+', '?'
+      when ':', '@', '?'
         @firstpos = @children[0].firstpos
-      when '()'
+      when '<>'
         @firstpos = @children[0].firstpos
       else
         puts "No"
@@ -232,13 +232,13 @@ class TreeNode
     else
       @children.each(&:process_lastpos)
       case @value.to_s
-      when '|'
+      when '%'
         @lastpos = @children[0].lastpos + @children[1].lastpos
-      when '.'
+      when ';'
         @lastpos = @children[1].nullable ? @children[0].lastpos + @children[1].lastpos : @children[1].lastpos
-      when '*', '+', '?'
+      when ':', '@', '?'
         @lastpos = @children[0].lastpos
-      when '()'
+      when '<>'
         @lastpos = @children[0].lastpos
       else
         puts "No"
@@ -247,11 +247,11 @@ class TreeNode
   end
 
   def process_followpos
-    if @value.to_s == '.'
+    if @value.to_s == ';'
       @children[0].lastpos.each do |position|
         @@follow_pos[position] = (@@follow_pos[position] || []) + @children[1].firstpos
       end
-    elsif (@value.to_s == '*' || @value.to_s == '+' || @value.to_s == '?') && @children.any?
+    elsif (@value.to_s == ':' || @value.to_s == '@' || @value.to_s == '?') && @children.any?
       @children[0].lastpos.each do |position|
         @@follow_pos[position] = (@@follow_pos[position] || []) + @children[0].firstpos
       end

@@ -1,13 +1,30 @@
-COMPILER*0& *12&Ejemplo*7&
-*12&CHARACTERS*1&
-*12&letter*7& *12&=*10& *12&"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"*13&;*9&
-*12&digit*7& *12&=*10& *12&"0123456789"*13&;*9&
-*12&hexdigit*7& *12&=*10& *12&digit*7&>*14&"ABCDEF"*13&;*9&
-*12&KEYWORDS*2&
-*12&if*7&=*10&"if"*13&;*9&
-*12&while*7&=*10&"while"*13&;*9&
-*12&TOKENS*3&
-*12&id*7& *12&=*10& *12&letter*7&{*15&letter*7&}*16& *12&EXCEPT*6& *12&KEYWORDS*2&;*9&
-*12&number*7& *12&=*10& *12&digit*7&{*15&digit*7&}*16&;*9&
-*12&PRODUCTIONS*4&
-*12&END*5& *12&Ejemplo*7
+COMPILER*0& *13&Aritmetica*8&
+
+*13&CHARACTERS*1& 
+
+*13&upletter*8& *13&=*11& *13&'A'*12& *13&..*23& *13&'Z'*12&.*10&
+*13&downletter*8& *13&=*11& *13&'a'*12& *13&..*23& *13&'z'*12&.*10&
+*13&letter*8& *13&=*11& *13&"abcdefghijklmnopqrstuvwxyz"*14& *13&+*15& *13&upletter*8& *13&+*15& *13&downletter*8&.*10&
+*13&digit*8& *13&=*11& *13&"0123456789"*14&.*10&
+*13&hexdigit*8& *13&=*11& *13&digit*8&+*15&"ABCDEF"*14&.*10&
+*13&hexterm*8& *13&=*11& *13&'H'*12&.*10&
+*13&tab*8& *13&=*11& *13&CHR(9)*7&.*10&
+*13&eol*8& *13&=*11& *13&CHR(10)*7&.*10&
+*13&whitespace*8& *13&=*11& *13&CHR(13)*7&+*15&eol*8&+*15&tab*8&+*15&CHR(32)*7&.*10&
+*13&sign*8& *13&=*11&'+'*12&+*15&'-'*12&.*10&
+
+*13&KEYWORDS*2&
+
+*13&while*8& *13&=*11& *13&"while"*14&.*10&
+*13&if*8& *13&=*11& *13&"if"*14&.*10&
+
+*13&TOKENS*3&
+
+*13&ident*8& *13&=*11& *13&letter*8&{*16&letter*8&|*21&digit*8&}*17& *13&EXCEPT*6& *13&KEYWORDS*2&.*10&
+*13&hexnumber*8& *13&=*11& *13&hexdigit*8&{*16&hexdigit*8&}*17&hexterm*8& *13&EXCEPT*6& *13&KEYWORDS*2&.*10&
+*13&number*8& *13&=*11& *13&digit*8&{*16&digit*8&}*17&.*10&
+*13&signnumber*8& *13&=*11& *13&[*19&sign*8&]*20&digit*8&{*16&digit*8&}*17&.*10&
+*13&whitetoken*8& *13&=*11& *13&whitespace*8&{*16&whitespace*8&}*17&.*10&
+
+
+*13&END*5& *13&Aritmetica*8

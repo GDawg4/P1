@@ -8,19 +8,11 @@ require_relative 'State'
 class RegularExpression
   def initialize(string_representation)
     @string_representation = sub_sets(string_representation)
-    @operators = [Operator.new('*', 2), Operator.new('+', 2), Operator.new('?', 2), Operator.new('|', 0), Operator.new('.', 1)]
-    @symbols = ((@string_representation.split('').uniq - ['(', ')']) - @operators.map(&:to_s)).map do |symbol|
+    @operators = [Operator.new(':', 2), Operator.new('@', 2), Operator.new('?', 2), Operator.new('%', 0), Operator.new(';', 1)]
+    @symbols = ((@string_representation.split('').uniq - ['<', '>']) - @operators.map(&:to_s)).map do |symbol|
       SymbolNew.new(symbol)
     end
     @tree_representation = nil
-  end
-
-  def graph_afn
-    @graph_afn
-  end
-
-  def graph_subset
-    @graph_subset
   end
 
   def graph_direct
@@ -37,11 +29,11 @@ class RegularExpression
 
   def get_precedence(operator)
     case operator
-    when '*', '+', '?'
+    when ':', '@', '?'
       2
-    when '.'
+    when ';'
       2
-    when '|'
+    when '%'
       1
     else
       0
@@ -56,7 +48,7 @@ class RegularExpression
   end
 
   def unary?(symbol)
-    ['*', '+', '?'].include?(symbol)
+    [':', '@', '?'].include?(symbol)
   end
 
   def create_graph(transition_function)
@@ -95,39 +87,39 @@ class RegularExpression
         # puts regex_representation[i]
         new_node = TreeNode.new(regex_representation[i])
         values.push(new_node)
-        if symbol?(regex_representation[i + 1]) || (i.positive? && unary?(regex_representation[i - 1])) || (i.positive? && regex_representation[i-1].to_s == ')')
-          operators.push(TreeNode.new('.'))
+        if symbol?(regex_representation[i + 1]) || (i.positive? && unary?(regex_representation[i - 1])) || (i.positive? && regex_representation[i-1].to_s == '>')
+          operators.push(TreeNode.new(';'))
         end
         i += 1
-      elsif regex_representation[i] == '('
-        operators.push(TreeNode.new('.')) if regex_representation[[0, i - 1].max] == ')' || symbol?(regex_representation[[0, i - 1].max])
+      elsif regex_representation[i] == '<'
+        operators.push(TreeNode.new(';')) if regex_representation[[0, i - 1].max] == '>' || symbol?(regex_representation[[0, i - 1].max])
         new_node = TreeNode.new(regex_representation[i])
         operators.push(new_node)
         i += 1
-      elsif regex_representation[i] == ')'
-        while operators.last.to_s != '('
+      elsif regex_representation[i] == '>'
+        while operators.last.to_s != '<'
           op = operators.pop
           case op.to_s
-          when '*', '+', '?'
+          when ':', '@', '?'
             new_value = values.pop
             values.push(create_node_two(op.to_s, new_value, op))
-          when '|'
+          when '%'
             first_value = values.pop
             second_value = values.pop
             values.push(create_node_two(op.to_s, second_value, first_value))
-          when '.'
+          when ';'
             first_value = values.pop
             second_value = values.pop
             values.push(create_node_two(op.to_s, second_value, first_value))
-          # when '('
-          #   new_node = TreeNode.new('(')
+          # when '<'
+          #   new_node = TreeNode.new('<')
           #   operators.push(new_node)
           #   i += 1
           else
             puts 'Ninguno'
           end
         end
-        new_root = TreeNode.new('()')
+        new_root = TreeNode.new('<>')
         new_value = values.pop
         new_root.add_child(new_value)
         values.push(new_root)
@@ -135,13 +127,13 @@ class RegularExpression
         i += 1
       # end
       elsif operator?(regex_representation[i]) || (symbol?(regex_representation[i]) && symbol?(regex_representation[i + 1])) || regex_representation[i] == '#'
-        current = symbol?(regex_representation[i]) && symbol?(regex_representation[i + 1]) ? '.' : regex_representation[i]
-        if regex_representation[i] == '*'
+        current = symbol?(regex_representation[i]) && symbol?(regex_representation[i + 1]) ? ';' : regex_representation[i]
+        if regex_representation[i] == ':'
           first_value = values.pop
-          values.push(create_node_two('*', first_value, TreeNode.new('*')))
-        elsif regex_representation[i] == '+'
+          values.push(create_node_two(':', first_value, TreeNode.new(':')))
+        elsif regex_representation[i] == '@'
           first_value = values.pop
-          values.push(create_node_two('+', first_value, TreeNode.new('+')))
+          values.push(create_node_two('@', first_value, TreeNode.new('@')))
         elsif regex_representation[i] == '?'
           first_value = values.pop
           values.push(create_node_two('?', first_value, TreeNode.new('?')))
@@ -149,14 +141,14 @@ class RegularExpression
           while operators.any? && get_precedence(operators.last.to_s) >= get_precedence(current)
             operator = operators.pop
             case operator.to_s
-            when '|'
+            when '%'
               first_value = values.pop
               second_value = values.pop
-              values.push(create_node_two('|', second_value, first_value))
-            when '.'
+              values.push(create_node_two('%', second_value, first_value))
+            when ';'
               first_value = values.pop
               second_value = values.pop
-              values.push(create_node_two('.', second_value, first_value))
+              values.push(create_node_two(';', second_value, first_value))
             end
             # new_node = TreeNode.new(regex_representation[i])
           end
@@ -174,34 +166,28 @@ class RegularExpression
     while operators.any?
       operand = operators.pop
       case operand.to_s
-      when '*', '+', '?'
+      when ':', '@', '?'
         first_value = values.pop
         values.push(create_node_two(operand.to_s, first_value, TreeNode.new(operand)))
-      when '|'
+      when '%'
         first_value = values.pop
         second_value = values.pop
-        values.push(create_node_two('|', first_value, second_value))
-      when '.'
+        values.push(create_node_two('%', first_value, second_value))
+      when ';'
         first_value = values.pop
         second_value = values.pop
-        values.push(create_node_two('.', first_value, second_value))
+        values.push(create_node_two(';', first_value, second_value))
       end
     end
     values = values.reverse
     while values.length > 1
       first_value = values.pop
       second_value = values.pop
-      values.push(create_node_two('.', second_value, first_value))
+      values.push(create_node_two(';', second_value, first_value))
     end
     # first_value = values.pop
-    # values.push(create_node_two('.', first_value, TreeNode.new('#')))
+    # values.push(create_node_two(';', first_value, TreeNode.new('#')))
     values[0]
-  end
-
-  def create_thompson
-    @tree = create_tree(@string_representation)
-    @tree.print_children(0)
-    create_afn
   end
 
   def sub_sets(string_to_check)
@@ -210,24 +196,22 @@ class RegularExpression
       'digit': '0|1|2|3|4|5|6|7|8|9'
     }
     @basic_sets = {
-      'TokenDecl': 'TOKENS(empty)',
-      'KeyDecl': 'KEYWORDS(empty)',
-      'CharsDecl': 'CHARACHTERS(empty)SetDecl*',
-      'SetDecl': 'ident=Set;(empty)',
-      'Set': 'BasicSea((>|<)BasicSea)*',
-      'BasicSea': "string|ident|char|ANY",
-      'ident': 'letter(letter|digit)*',
-      'number': 'digit(digit)*',
-      'string': '"(letter|digit)*"',
-      'char': '\'letter\'',
-      'letter': 'a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z|A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z',
-      'digit': '0|1|2|3|4|5|6|7|8|9',
-      'empty': "( |\n)*"
+      'ident': 'letter<letter%digit>:',
+      'range': '<charachter<empty>..<empty>charachter>',
+      'charachter': '<char%alt_char>',
+      'alt_char': '<CHR(number)>',
+      'number': 'digit<digit>:',
+      'string': '"<letter%digit%symbol>:"',
+      'char': '\'<letter%digit%+%->\'',
+      'letter': 'a%b%c%d%e%f%g%h%i%j%k%l%m%n%o%p%q%r%s%t%u%v%w%x%y%z%A%B%C%D%E%F%G%H%I%J%K%L%M%N%O%P%Q%R%S%T%U%V%W%X%Y%Z',
+      'symbol': '!',
+      'digit': '0%1%2%3%4%5%6%7%8%9',
+      'empty': "<\n%\t%\x16%#{32.chr}>:"
     }
     new_string = string_to_check
-    # @basic_sets.each do |key, value|
-    #   new_string = new_string.gsub(key.to_s, "(#{value})")
-    # end
+    @basic_sets.each do |key, value|
+      new_string = new_string.gsub(key.to_s, "<#{value}>")
+    end
     new_string
   end
 
@@ -235,6 +219,7 @@ class RegularExpression
     # important_symbol = SymbolNew.new('#')
     # @symbols << important_symbol
     temp = sub_sets(@string_representation)
+    # puts "Temp: #{temp}"
     @important_tree = create_tree(temp)
     # @symbols.delete_at(-1)
     # @important_tree.print_children(0)
@@ -254,59 +239,8 @@ class RegularExpression
     build_dfa
   end
 
-  def create_afn
-    @tree.set_symbols(@symbols)
-    @tree.set_afn_symbols([*@symbols, 'ε'])
-    @afn = @tree.create_state
-    @graph_afn = create_graph(@afn.transition_function)
-  end
-
-  def check_string(message)
-    states = @afn.eclosure(@afn.starting_states.map(&:id))
-    message.each_char do |charachter|
-      states = @afn.eclosure(@afn.move(states, charachter))
-    end
-    puts "Revisando si la cadena '#{message}' pertenece a la expresión regular'#{@string_representation}'"
-    puts 'El oráculo no determinista ha pensado, y habiendo pensado ofrece una respuesta:'
-    puts '----------------------------------------------------'
-    puts states.intersection(@afn.final_states.map(&:id)).any?
-    puts '----------------------------------------------------'
-    puts 'Gracias por visitar el oráculo \n'
-  end
-
   def share_elements(array1, array2)
     (array1 & array2).any?
-  end
-
-  def create_subset
-    states = @afn.eclosure(@afn.starting_states_id).sort.uniq
-    possible_names = ("A".."Z").to_a
-    names = ["A"]
-    afd_states = [states]
-    are_marked = [false]
-    are_initial = [true]
-    are_final = [share_elements(states, @afn.final_states_id)]
-    transition = {}
-    until are_marked.find_index { |state| state == false }.nil?
-      state_to_check = are_marked.find_index{ |state| state == false }
-      are_marked[state_to_check] = true
-      @symbols.each do |symbol|
-        c_states = @afn.eclosure(@afn.move(afd_states[state_to_check], symbol.to_s)).sort.uniq
-        unless afd_states.include?(c_states) || c_states == []
-          names << possible_names[afd_states.length]
-          afd_states << c_states
-          are_marked << false
-          are_initial << share_elements(c_states, @afn.starting_states_id)
-          are_final << share_elements(c_states, @afn.final_states_id)
-        end
-        name = afd_states.find_index{ |state| state == c_states }
-        (transition[[names[state_to_check], symbol.to_s]] = names[name]) if c_states != []
-      end
-    end
-    @afd = create_afd(names, are_initial, are_final, transition)
-    # puts @afd.transition_function
-    @graph_subset = create_graph(@afd.transition_function)
-    @afd.set_symbols(@symbols)
   end
 
   def build_dfa
@@ -367,19 +301,6 @@ class RegularExpression
     end
     @return_tokens = Hash[[states, return_tokens].transpose]
     AFD.new(afd_states, afd_starting_states, afd_final_states, transition_function, return_tokens)
-  end
-
-  def check_string_afd(message)
-    state = @afd.starting_states[0].id
-    message.each_char do |charachter|
-      state = @afd.move(state, charachter)
-    end
-    puts "Revisando si la cadena '#{message}' pertenece a la expresión regular'#{@string_representation}'"
-    puts 'El oráculo creado con subconjuntos ha pensado, y habiendo pensado ofrece una respuesta:'
-    puts '----------------------------------------------------'
-    puts @afd.final_states.map(&:id).include?(state)
-    puts '----------------------------------------------------'
-    puts 'Gracias por visitar el oráculo \n'
   end
 
   def check_string_direct(message)
