@@ -1,8 +1,9 @@
 COMPILER MyCOCOR
 CHARACTERS
+(.---Comentario---.)
 
-letter="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".
-digit="0123456789".
+letter= "ABCDEFGHIJKLMNÑOPQRSTUVWXYZabcdefghijklmnñopqrstuvwxyz".
+digit= "0123456789".
 
 cr = CHR(13).
 lf = CHR(10).
@@ -12,17 +13,17 @@ comillas = CHR(34).
 stringletter = ANY-comillas-ignore.
 
 operadores ="+-=()[]{}|.".
-adicionales="+-=()[]{}|.".
 MyANY = ANY-operadores.
 
 TOKENS
 
-ident = letter{letter|digit}.
-equal=adicionales.
+ident = letter{letter|digit} EXCEPT KEYWORDS.
 string = comillas stringletter{stringletter} comillas.
+
 char = "'"["/"]letter"'".
 charnumber = "CHR("digit{digit}")".
 charinterval = "CHR("digit{digit}")""..""CHR("digit{digit}")".
+
 nontoken = MyANY.
 startcode ="(.".
 endcode=".)".

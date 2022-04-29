@@ -202,9 +202,10 @@ class RegularExpression
       'alt_char': '<CHR(number)>',
       'number': 'digit<digit>:',
       'string': '"<letter%digit%symbol>:"',
-      'char': '\'<letter%digit%+%->\'',
-      'letter': 'a%b%c%d%e%f%g%h%i%j%k%l%m%n%o%p%q%r%s%t%u%v%w%x%y%z%A%B%C%D%E%F%G%H%I%J%K%L%M%N%O%P%Q%R%S%T%U%V%W%X%Y%Z',
-      'symbol': '!',
+      'char': '\'<letter%digit%+%-% >\'',
+      'any': '<letter%digit%empty%symbol>:',
+      'letter': 'a%b%c%d%e%f%g%h%i%j%k%l%m%n%ñ%o%p%q%r%s%t%u%v%w%x%y%z%A%B%C%D%E%F%G%H%I%J%K%L%M%N%Ñ%O%P%Q%R%S%T%U%V%W%X%Y%Z',
+      'symbol': '(%)%{%}%+%-%=%[%]%|%/%\'%*%.%/',
       'digit': '0%1%2%3%4%5%6%7%8%9',
       'empty': "<\n%\t%\x16%#{32.chr}>:"
     }
@@ -311,14 +312,18 @@ class RegularExpression
     while i < message.length
       string_to_check = message[i]
       new_state = @direct_afd.move(state, string_to_check)
-      # puts "String: '#{string_to_check}' in state #{state} to #{new_state}"
+      puts "String: '#{string_to_check}' in state #{state} to #{new_state}"
       if new_state.nil?
-        # puts "Last found: #{last_found} i:#{i}"
+        puts "Last found: #{last_found} i:#{i}"
         if i - last_found == 1
-          # puts "Stopped at token: '#{message[last_found]}' to number: #{@return_tokens[state]}"
+          puts "Stopped at token: '#{message[last_found]}' to number: #{@return_tokens[state]}"
           found_tokens.push([message[last_found], @return_tokens[state]])
+        elsif i == last_found
+          puts "Not recognized at #{last_found}"
+          found_tokens.push([message[i], nil])
+          i += 1
         else
-          # puts "Stopped at token2: '#{message[last_found..i-1]}' to number: #{@return_tokens[state]}"
+          puts "Stopped at token2: '#{message[last_found..i-1]}' to number: #{@return_tokens[state]}"
           found_tokens.push([message[last_found..i-1], @return_tokens[state]])
         end 
         state = @direct_afd.starting_states[0].id

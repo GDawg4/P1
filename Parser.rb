@@ -3,7 +3,7 @@ require_relative "RegularExpression"
 class Parser
   attr_accessor :root
 
-  ['COMPILER', 'CHARACTERS', 'KEYWORDS', 'TOKENS', 'PRODUCTIONS', 'END', 'EXCEPT', 'alt_char', 'ident', 'number', 'colon', 'equal', 'char',  'empty', 'string',
+  ['COMPILER', 'CHARACTERS', 'KEYWORDS', 'TOKENS', 'PRODUCTIONS', 'END', 'EXCEPT', 'IGNORE', 'alt_char', 'ident', 'number', 'colon', 'equal', 'char',  'empty', 'string',
    'greater', 'c_bracket1',  'c_bracket2', 'smaller', 's_bracket1', 's_bracket2', 'or', 'comment', 'char_range'].each_with_index do |token, i|
     define_method("is_#{token}") do |name|
       name == i
@@ -16,7 +16,7 @@ class Parser
                 token.split('*').map.with_index do |s, i|
                   i.zero? ? s : s.to_i
                 end
-              end.reject! { |j| [13, 22].include?(j[1]) }
+              end.reject! { |j| [14, 23].include?(j[1]) }
     file.close
     @current = 0
     @tokens_key = {}
@@ -57,6 +57,7 @@ class Parser
       advance
       scanner_node.add_child(sets)
     end
+    puts "Peek #{first_lex}"
     if is_KEYWORDS(peek_first)
       scanner_node.add_child(ParseState.new('KEYWORDS'))
       advance
@@ -72,6 +73,10 @@ class Parser
     end
     if is_END(peek_first)
       scanner_node.add_child(endd)
+      scanner_node.add_child(ident)
+    end
+    if is_IGNORE(peek_first)
+      scanner_node.add_child(ignore)
       scanner_node.add_child(ident)
     end
     scanner_node
@@ -183,15 +188,16 @@ class Parser
     token_factor_node = ParseState.new('TokenFactor')
     if ['(', '[', '{'].include? first_lex
       token_factor_node.add_child(ParseState.new('<'))
+      token_factor_node.add_child(ParseState.new('<'))
       advance
       token_factor_node.add_child(token_expr)
       item_to_add = case first_lex
                     when ']'
-                      '>?'
+                      '>?>'
                     when '}'
-                      '>:'
+                      '>:>'
                     else
-                      '>'
+                      '>>'
                     end
       token_factor_node.add_child(ParseState.new(item_to_add))
       advance
@@ -203,6 +209,7 @@ class Parser
 
   def symbol
     symbol_node = ParseState.new('Symbol')
+    puts "Down Here #{first_lex} #{is_string(peek_first)}"
     if is_ident(peek_first)
       symbol_node.add_child(ident)
     end
@@ -215,6 +222,11 @@ class Parser
   def productions
     advance
     ParseState.new('PRODUCTIONS')
+  end
+
+  def ignore
+    advance
+    ParseState.new('IGNORE')
   end
 
   def endd
@@ -242,7 +254,6 @@ class Parser
 
   def alt_char
     character = ParseState.new('alt_char')
-    puts "Adding #{(first_lex.split('(')[1]).split(')')[0].to_i}"
     char_to_add = (first_lex.split('(')[1]).split(')')[0].to_i.chr
     leaf = ParseState.new(char_to_add)
     character.add_child(leaf)
@@ -284,14 +295,16 @@ sets = parser.root.sets
 keywords = parser.root.keywords
 tokens = parser.root.tokens_test
 
-puts "#{sets}"
+puts "TOKENS #{sets}"
 puts "#{keywords}"
 puts "#{tokens}"
 
 sets_f = {}
+sets_f["ANY"] = ((0..9).to_a + ('A'..'Z').to_a + ('a'..'z').to_a + ('!'..'?').to_a + ['=', '[', ']', '|', '{', '}']).join('').gsub('%', '.').gsub('<', '').gsub('>', '').gsub(';', '').gsub(':', '').gsub('@', '').gsub('#', '').gsub('?', '')
+puts "ANY #{sets_f["ANY"]}"
 sets.each do |set|
   if set.length == 4
-    sets_f[set[0]] = set[2].tr('"', '')
+    sets_f[set[0]] = set[2] == '"' ? "\"": set[2].tr('"', '')
   else
     i = 2
     current_set = ''
@@ -308,13 +321,8 @@ sets.each do |set|
       else
         if set[i-1] == '+'
           current_set = (current_set + current_value).chars.uniq.join('').tr('"', '')
-          # each_char.map(&:to_s).join('|')
-          # .chars.uniq.join('')
         elsif set[i-1] == '-'
-          current_value.each_char do |character|
-            puts "Char #{character}"
-            current_set = current_set.tr(character, '')
-          end
+          current_set = (current_set.split('') - current_value.split('')).uniq.join('').tr('"', '')
         end
       end
       i += 2
@@ -341,7 +349,14 @@ tokens.each_with_index do |token, i|
 end
 # puts "Has except #{has_except}"
 # puts "Sets #{sets_f}"
-puts "Tokens #{tokens_f}"
+# puts "Tokens #{tokens_f}"
+# puts "Tokens #{tokens_f}"
+# sets_f.each do |key, value|
+#   puts "#{key}: #{value}"
+# end
+tokens_f.each do |key, value|
+  puts "A #{key}: #{value}"
+end
 
 final_string = ''
 tokens_f.each do |key, value|
@@ -363,14 +378,12 @@ instructions_to_write = [
   'require_relative "RegularExpression"',
   'require "rgl/dot"',
   'require "rgl/adjacency"',
-  "string_to_check = ''",
-  'File.open("text.txt").each_char { |x| string_to_check << x }',
-  "reg_ex = RegularExpression.new('#{final_string.chop}')",
+  "string_to_check = \"\"",
+  'File.open("test.atg").each_char { |x| string_to_check << x }',
+  "reg_ex = RegularExpression.new(\"<empty#>%#{final_string.chop.gsub('"', '\"')}\")",
   'reg_ex.create_direct',
   'checked = reg_ex.check_string_direct(string_to_check)',
-  'puts "Result: #{checked}"', 
-  'graph, names = reg_ex.graph_direct',
-  'create_graph(graph, names, "graph_direct2")'
+  'puts "Result: #{checked}"'
 
 ]
 File.open('expr.rb', 'w') do |f|

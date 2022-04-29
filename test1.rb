@@ -11,20 +11,12 @@ def create_graph(graph, names, file_name)
 end
 
 def process_line(line)
-  # line = line.gsub('+', '>').gsub('-', '<').gsub('|', '%').gsub('..', ':').gsub('(.', '$').gsub('.)', '$').gsub('/*', '').gsub('*/', '').gsub('(', '@').gsub(')', '@')
-  # line[-2] = ';' if line[-2] == '.'
-  # line.gsub('.', '!')
   line
 end
 string_to_check = ''
-File.readlines("test.atg").each { |x| string_to_check << process_line(x) }
-puts string_to_check
-expressions = ['a(bc)*', 'a(cb)*']
-# ε
+File.readlines("cocol.atg").each { |x| string_to_check << process_line(x) }
 # \n
-reg_ex = RegularExpression.new('<COMPILER#>%<CHARACTERS#>%<KEYWORDS#>%<TOKENS#>%<PRODUCTIONS#>%<END#>%<EXCEPT#>%<alt_char#>%<ident#>%<number#>%<.#>%<=#>%<char#>%<<empty>#>%<string#>%<+#>%<{#>%<}#>%<-#>%<[#>%<]#>%<|#>%<<$any$>#>%<..#>')
-# reg_ex = RegularExpression.new('<char#>%<.#>')
-# reg_ex = RegularExpression.new('(.#)')
+reg_ex = RegularExpression.new('<COMPILER#>%<CHARACTERS#>%<KEYWORDS#>%<TOKENS#>%<PRODUCTIONS#>%<END#>%<EXCEPT#>%<IGNORE#>%<alt_char#>%<ident#>%<number#>%<.#>%<=#>%<char#>%<<empty>#>%<string#>%<+#>%<{#>%<}#>%<-#>%<[#>%<]#>%<|#>%<<<(.><<letter%symbol%digit>:><.)>>#>%<..#>')
 reg_ex.create_direct
 checked = reg_ex.check_string_direct(string_to_check)
 puts "Result: #{checked}"

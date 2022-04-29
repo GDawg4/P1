@@ -46,7 +46,11 @@ class ParseState
   end
   
   def keywords
-    child_by_name('ScannerSpecification')[0].child_by_name('Keywords').map(&:children)[0].map(&:flat_contents)
+    if child_by_name('ScannerSpecification')[0].child_by_name('Keywords').empty?
+      []
+    else
+      child_by_name('ScannerSpecification')[0].child_by_name('Keywords').map(&:children)[0].map(&:flat_contents)
+    end
   end
 
   def tokens_test
