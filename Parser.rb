@@ -16,7 +16,7 @@ class Parser
                 token.split('*').map.with_index do |s, i|
                   i.zero? ? s : s.to_i
                 end
-              end.reject! { |j| [14, 23].include?(j[1]) }
+              end.reject! { |j| [14, 23, nil].include?(j[1]) }
     file.close
     @current = 0
     @tokens_key = {}

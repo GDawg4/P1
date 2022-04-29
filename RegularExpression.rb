@@ -312,18 +312,18 @@ class RegularExpression
     while i < message.length
       string_to_check = message[i]
       new_state = @direct_afd.move(state, string_to_check)
-      puts "String: '#{string_to_check}' in state #{state} to #{new_state}"
+      # puts "String: '#{string_to_check}' in state #{state} to #{new_state}"
       if new_state.nil?
-        puts "Last found: #{last_found} i:#{i}"
+        # puts "Last found: #{last_found} i:#{i}"
         if i - last_found == 1
-          puts "Stopped at token: '#{message[last_found]}' to number: #{@return_tokens[state]}"
+          # puts "Stopped at token: '#{message[last_found]}' to number: #{@return_tokens[state]}"
           found_tokens.push([message[last_found], @return_tokens[state]])
         elsif i == last_found
           puts "Not recognized at #{last_found}"
           found_tokens.push([message[i], nil])
           i += 1
         else
-          puts "Stopped at token2: '#{message[last_found..i-1]}' to number: #{@return_tokens[state]}"
+          # puts "Stopped at token2: '#{message[last_found..i-1]}' to number: #{@return_tokens[state]}"
           found_tokens.push([message[last_found..i-1], @return_tokens[state]])
         end 
         state = @direct_afd.starting_states[0].id

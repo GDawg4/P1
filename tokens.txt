@@ -1,6 +1,6 @@
 COMPILER*0& *14&MyCOCOR*9&
 *14&CHARACTERS*1&
-*14&(.---Comentario---.)*23&☻*&☻*&☻*&☻*&☻*&☻*&☻*&
+*14&(.---Comentario---.)*23&
 
 *14&letter*9&=*12& *14&"ABCDEFGHIJKLMNÑOPQRSTUVWXYZabcdefghijklmnñopqrstuvwxyz"*15&.*11&
 *14&digit*9&=*12& *14&"0123456789"*15&.*11&
