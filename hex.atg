@@ -2,9 +2,9 @@ COMPILER Aritmetica
 
 CHARACTERS 
 
-upletter = 'A' .. 'Z'.
-downletter = 'a' .. 'z'.
-letter = "abcdefghijklmnopqrstuvwxyz" + upletter + downletter. 
+upletter = 'A' .. 'C'.
+downletter = 'a' .. 'cc'.
+letter = "xyz" + upletter + downletter. 
 digit = "0123456789" .
 hexdigit = digit + "ABCDEF".
 hexterm = 'H'.
@@ -25,6 +25,7 @@ hexnumber = hexdigit{hexdigit}hexterm EXCEPT KEYWORDS.
 number = digit{digit}.
 signnumber = [sign]digit{digit}.
 whitetoken = whitespace{whitespace}.
+decimal = digit{digit}"."digit{digit}"d".
 
 
 END Aritmetica

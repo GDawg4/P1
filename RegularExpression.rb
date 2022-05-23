@@ -8,8 +8,8 @@ require_relative 'State'
 class RegularExpression
   def initialize(string_representation)
     @string_representation = sub_sets(string_representation)
-    @operators = [Operator.new(':', 2), Operator.new('@', 2), Operator.new('?', 2), Operator.new('%', 0), Operator.new(';', 1)]
-    @symbols = ((@string_representation.split('').uniq - ['<', '>']) - @operators.map(&:to_s)).map do |symbol|
+    @operators = [Operator.new(':', 2), Operator.new('@', 2), Operator.new('?', 2), Operator.new('%', 0), Operator.new('µ', 1)]
+    @symbols = ((@string_representation.split('').uniq - ['ß', 'Ô']) - @operators.map(&:to_s)).map do |symbol|
       SymbolNew.new(symbol)
     end
     @tree_representation = nil
@@ -31,7 +31,7 @@ class RegularExpression
     case operator
     when ':', '@', '?'
       2
-    when ';'
+    when 'µ'
       2
     when '%'
       1
@@ -87,17 +87,17 @@ class RegularExpression
         # puts regex_representation[i]
         new_node = TreeNode.new(regex_representation[i])
         values.push(new_node)
-        if symbol?(regex_representation[i + 1]) || (i.positive? && unary?(regex_representation[i - 1])) || (i.positive? && regex_representation[i-1].to_s == '>')
-          operators.push(TreeNode.new(';'))
+        if symbol?(regex_representation[i + 1]) || (i.positive? && unary?(regex_representation[i - 1])) || (i.positive? && regex_representation[i-1].to_s == 'Ô')
+          operators.push(TreeNode.new('µ'))
         end
         i += 1
-      elsif regex_representation[i] == '<'
-        operators.push(TreeNode.new(';')) if regex_representation[[0, i - 1].max] == '>' || symbol?(regex_representation[[0, i - 1].max])
+      elsif regex_representation[i] == 'ß'
+        operators.push(TreeNode.new('µ')) if regex_representation[[0, i - 1].max] == 'Ô' || symbol?(regex_representation[[0, i - 1].max])
         new_node = TreeNode.new(regex_representation[i])
         operators.push(new_node)
         i += 1
-      elsif regex_representation[i] == '>'
-        while operators.last.to_s != '<'
+      elsif regex_representation[i] == 'Ô'
+        while operators.last.to_s != 'ß'
           op = operators.pop
           case op.to_s
           when ':', '@', '?'
@@ -107,19 +107,19 @@ class RegularExpression
             first_value = values.pop
             second_value = values.pop
             values.push(create_node_two(op.to_s, second_value, first_value))
-          when ';'
+          when 'µ'
             first_value = values.pop
             second_value = values.pop
             values.push(create_node_two(op.to_s, second_value, first_value))
-          # when '<'
-          #   new_node = TreeNode.new('<')
+          # when 'ß'
+          #   new_node = TreeNode.new('ß')
           #   operators.push(new_node)
           #   i += 1
           else
             puts 'Ninguno'
           end
         end
-        new_root = TreeNode.new('<>')
+        new_root = TreeNode.new('ßÔ')
         new_value = values.pop
         new_root.add_child(new_value)
         values.push(new_root)
@@ -127,7 +127,7 @@ class RegularExpression
         i += 1
       # end
       elsif operator?(regex_representation[i]) || (symbol?(regex_representation[i]) && symbol?(regex_representation[i + 1])) || regex_representation[i] == '#'
-        current = symbol?(regex_representation[i]) && symbol?(regex_representation[i + 1]) ? ';' : regex_representation[i]
+        current = symbol?(regex_representation[i]) && symbol?(regex_representation[i + 1]) ? 'µ' : regex_representation[i]
         if regex_representation[i] == ':'
           first_value = values.pop
           values.push(create_node_two(':', first_value, TreeNode.new(':')))
@@ -145,10 +145,10 @@ class RegularExpression
               first_value = values.pop
               second_value = values.pop
               values.push(create_node_two('%', second_value, first_value))
-            when ';'
+            when 'µ'
               first_value = values.pop
               second_value = values.pop
-              values.push(create_node_two(';', second_value, first_value))
+              values.push(create_node_two('µ', second_value, first_value))
             end
             # new_node = TreeNode.new(regex_representation[i])
           end
@@ -173,20 +173,20 @@ class RegularExpression
         first_value = values.pop
         second_value = values.pop
         values.push(create_node_two('%', first_value, second_value))
-      when ';'
+      when 'µ'
         first_value = values.pop
         second_value = values.pop
-        values.push(create_node_two(';', first_value, second_value))
+        values.push(create_node_two('µ', first_value, second_value))
       end
     end
     values = values.reverse
     while values.length > 1
       first_value = values.pop
       second_value = values.pop
-      values.push(create_node_two(';', second_value, first_value))
+      values.push(create_node_two('µ', second_value, first_value))
     end
     # first_value = values.pop
-    # values.push(create_node_two(';', first_value, TreeNode.new('#')))
+    # values.push(create_node_two('µ', first_value, TreeNode.new('#')))
     values[0]
   end
 
@@ -196,22 +196,22 @@ class RegularExpression
       'digit': '0|1|2|3|4|5|6|7|8|9'
     }
     @basic_sets = {
-      'ident': 'letter<letter%digit>:',
-      'range': '<charachter<empty>..<empty>charachter>',
-      'charachter': '<char%alt_char>',
-      'alt_char': '<CHR(number)>',
-      'number': 'digit<digit>:',
-      'string': '"<letter%digit%symbol>:"',
-      'char': '\'<letter%digit%+%-% >\'',
-      'any': '<letter%digit%empty%symbol>:',
+      'ident': 'letterßletter%digitÔ:',
+      'range': 'ßcharachterßemptyÔ..ßemptyÔcharachterÔ',
+      'charachter': 'ßchar%alt_charÔ',
+      'alt_char': 'ßCHR(number)Ô',
+      'number': 'digitßdigitÔ:',
+      'string': '"ßletter%digit%symbolÔ:"',
+      'char': '\'ßletter%digit%+%-% Ô\'',
+      'any': 'ßletter%digit%empty%symbolÔ:',
       'letter': 'a%b%c%d%e%f%g%h%i%j%k%l%m%n%ñ%o%p%q%r%s%t%u%v%w%x%y%z%A%B%C%D%E%F%G%H%I%J%K%L%M%N%Ñ%O%P%Q%R%S%T%U%V%W%X%Y%Z',
-      'symbol': '(%)%{%}%+%-%=%[%]%|%/%\'%*%.%/',
+      'symbol': '(%)%{%}%+%-%=%[%]%|%/%\'%*%.%/%;%,',
       'digit': '0%1%2%3%4%5%6%7%8%9',
-      'empty': "<\n%\t%\x16%#{32.chr}>:"
+      'empty': "ß\n%\t%\x16%#{32.chr}Ô:"
     }
     new_string = string_to_check
     @basic_sets.each do |key, value|
-      new_string = new_string.gsub(key.to_s, "<#{value}>")
+      new_string = new_string.gsub(key.to_s, "ß#{value}Ô")
     end
     new_string
   end
@@ -309,19 +309,26 @@ class RegularExpression
     i = 0
     found_tokens = []
     last_found = 0
+    last_match = 0
+    last_match_pos = 0
+    # puts "Checking: #{message}"
     while i < message.length
       string_to_check = message[i]
       new_state = @direct_afd.move(state, string_to_check)
-      # puts "String: '#{string_to_check}' in state #{state} to #{new_state}"
+      # puts "String: '#{string_to_check}' in state #{state} to #{new_state} and last found is #{last_found}"
       if new_state.nil?
-        # puts "Last found: #{last_found} i:#{i}"
+        # puts "Last found at i:#{i}"
         if i - last_found == 1
           # puts "Stopped at token: '#{message[last_found]}' to number: #{@return_tokens[state]}"
           found_tokens.push([message[last_found], @return_tokens[state]])
         elsif i == last_found
-          puts "Not recognized at #{last_found}"
+          # puts "Not recognized at #{last_found}"
           found_tokens.push([message[i], nil])
           i += 1
+        elsif @return_tokens[state].nil?
+          # puts "Stopped at the wrong spot but #{message[last_found..last_match_pos]} mapped to #{last_match}"
+          found_tokens.push([message[last_found..last_match_pos], last_match])
+          i = last_match_pos + 1
         else
           # puts "Stopped at token2: '#{message[last_found..i-1]}' to number: #{@return_tokens[state]}"
           found_tokens.push([message[last_found..i-1], @return_tokens[state]])
@@ -329,6 +336,11 @@ class RegularExpression
         state = @direct_afd.starting_states[0].id
         last_found = i
       else
+        unless @return_tokens[new_state].nil?
+          # puts "Not stopped but returns #{@return_tokens[new_state]}"
+          last_match = @return_tokens[new_state]
+          last_match_pos = i
+        end
         state = new_state
         i += 1
       end

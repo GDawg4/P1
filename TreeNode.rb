@@ -101,7 +101,7 @@ class TreeNode
                        [afn_2.states[-1].id,
                         'ε'] => [new_final.id] }.merge(afn_1.transition_function).merge(afn_2.transition_function))
       @afn
-    elsif @name.to_s.eql?(';')
+    elsif @name.to_s.eql?('µ')
       afn_1 = @children[0].create_state
       afn_2 = @children[1].create_state
       afn_2.no_initial
@@ -173,7 +173,7 @@ class TreeNode
       when '%'
         @nullable = @children[0].process_nullable || @children[1].process_nullable
         @nullable
-      when ';'
+      when 'µ'
         child0 = @children[0].process_nullable
         child1 = @children[1].process_nullable
         @nullable = child0 && child1
@@ -210,7 +210,7 @@ class TreeNode
       case @value.to_s
       when '%'
         @firstpos = @children[0].firstpos + @children[1].firstpos
-      when ';'
+      when 'µ'
         @firstpos = @children[0].nullable ? @children[0].firstpos + @children[1].firstpos : @children[0].firstpos
       when ':', '@', '?'
         @firstpos = @children[0].firstpos
@@ -234,7 +234,7 @@ class TreeNode
       case @value.to_s
       when '%'
         @lastpos = @children[0].lastpos + @children[1].lastpos
-      when ';'
+      when 'µ'
         @lastpos = @children[1].nullable ? @children[0].lastpos + @children[1].lastpos : @children[1].lastpos
       when ':', '@', '?'
         @lastpos = @children[0].lastpos
@@ -247,7 +247,7 @@ class TreeNode
   end
 
   def process_followpos
-    if @value.to_s == ';'
+    if @value.to_s == 'µ'
       @children[0].lastpos.each do |position|
         @@follow_pos[position] = (@@follow_pos[position] || []) + @children[1].firstpos
       end

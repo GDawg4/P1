@@ -1,34 +1,42 @@
-COMPILER*0& *14&MyCOCOR*9&
-*14&CHARACTERS*1&
-*14&(.---Comentario---.)*23&
+COMPILER☺0☻ ☺14☻Aritmetica☺9☻    
 
-*14&letter*9&=*12& *14&"ABCDEFGHIJKLMNÑOPQRSTUVWXYZabcdefghijklmnñopqrstuvwxyz"*15&.*11&
-*14&digit*9&=*12& *14&"0123456789"*15&.*11&
+☺14☻CHARACTERS☺1☻ 
 
-*14&cr*9& *14&=*12& *14&CHR(13)*8&.*11&
-*14&lf*9& *14&=*12& *14&CHR(10)*8&.*11&
-*14&tab*9& *14&=*12& *14&CHR(9)*8&.*11&
-*14&ignore*9& *14&=*12& *14&cr*9&+*16&lf*9&+*16&tab*9&.*11&
-*14&comillas*9& *14&=*12& *14&CHR(34)*8&.*11&
-*14&stringletter*9& *14&=*12& *14&ANY*9&-*19&comillas*9&-*19&ignore*9&.*11&
+☺14☻letter☺9☻ ☺14☻=☺12☻ ☺14☻"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"☺15☻.☺11☻ 
+☺14☻digit☺9☻ ☺14☻=☺12☻ ☺14☻"0123456789"☺15☻ ☺14☻.☺11☻
+☺14☻tab☺9☻ ☺14☻=☺12☻ ☺14☻CHR(9)☺8☻.☺11☻
+☺14☻eol☺9☻ ☺14☻=☺12☻ ☺14☻CHR(10)☺8☻.☺11☻
 
-*14&operadores*9& *14&=*12&"+-=()[]{}|."*15&.*11&
-*14&MyANY*9& *14&=*12& *14&ANY*9&-*19&operadores*9&.*11&
+☺14☻TOKENS☺3☻
 
-*14&TOKENS*3&
+☺14☻ident☺9☻ ☺14☻=☺12☻ ☺14☻letter☺9☻{☺17☻letter☺9☻|☺22☻digit☺9☻}☺18☻ ☺14☻EXCEPT☺6☻ ☺14☻KEYWORDS☺2☻.☺11☻
+☺14☻number☺9☻ ☺14☻=☺12☻ ☺14☻digit☺9☻{☺17☻digit☺9☻}☺18☻.☺11☻
+☺14☻PRODUCTIONS☺4☻
 
-*14&ident*9& *14&=*12& *14&letter*9&{*17&letter*9&|*22&digit*9&}*18& *14&EXCEPT*6& *14&KEYWORDS*2&.*11&
-*14&string*9& *14&=*12& *14&comillas*9& *14&stringletter*9&{*17&stringletter*9&}*18& *14&comillas*9&.*11&
+☺14☻Expr☺9☻ ☺14☻=☺12☻ ☺14☻{☺17☻Stat☺9☻ ☺14☻";"☺15☻}☺18☻"."☺15☻.☺11☻
 
-*14&char*9& *14&=*12& *14&"'"*15&[*20&"/"*15&]*21&letter*9&"'"*15&.*11&
-*14&charnumber*9& *14&=*12& *14&"CHR("*15&digit*9&{*17&digit*9&}*18&")"*15&.*11&
-*14&charinterval*9& *14&=*12& *14&"CHR("*15&digit*9&{*17&digit*9&}*18&")"*15&".."*15&"CHR("*15&digit*9&{*17&digit*9&}*18&")"*15&.*11&
+☺14☻Stat☺9☻ ☺14☻=☺12☻ 							☺14☻(.value=0.)☺23☻
+	☺14☻Expression☺9☻<*value, value>☺25☻		    ☺14☻(.puts value.)☺23☻
+	☺14☻.☺11☻
 
-*14&nontoken*9& *14&=*12& *14&MyANY*9&.*11&
-*14&startcode*9& *14&=*12&"(."*15&.*11&
-*14&endcode*9&=*12&".)"*15&.*11&
+☺14☻Expression☺9☻<*result1, result>☺25☻ ☺14☻=☺12☻		    ☺14☻(.result1=result2=0.)☺23☻
+	☺14☻Term☺9☻<*result1, result1>☺25☻
+	☺14☻{☺17☻    ☺14☻"+"☺15☻Term☺9☻<*result2, result2>☺25☻		☺14☻(.result1+=result2.)☺23☻
+	   ☺14☻|☺22☻ ☺14☻"-"☺15☻Term☺9☻<*result2, result2>☺25☻		☺14☻(.result1-=result2.)☺23☻
+	☺14☻}☺18☻							☺14☻(.result=result1.)☺23☻
+	☺14☻.☺11☻
+☺14☻Term☺9☻<*result, result>☺25☻ ☺14☻=☺12☻				    ☺14☻(.result1=result2=0.)☺23☻
+	☺14☻Factor☺9☻<*result1, result1>☺25☻
+	☺14☻{☺17☻    ☺14☻"*"☺15☻Factor☺9☻<*result2, result2>☺25☻	    ☺14☻(.result1*=result2.)☺23☻
+	   ☺14☻|☺22☻ ☺14☻"/"☺15☻Factor☺9☻<*result2, result2>☺25☻	    ☺14☻(.result1/=result2.)☺23☻
+	☺14☻}☺18☻							☺14☻(.result=result1.)☺23☻
+	☺14☻.☺11☻
+	
+☺14☻Factor☺9☻<*result, result>☺25☻ ☺14☻=☺12☻	            ☺14☻(.signo=1.)☺23☻
+	☺14☻[☺20☻"-"☺15☻(.signo = -1.)☺23☻]☺21☻
+	☺14☻(☺28☻ ☺14☻Number☺9☻<*result, result>☺25☻ ☺14☻|☺22☻ ☺14☻"("☺15☻Expression☺9☻<*result, result>☺25☻")"☺15☻)☺29☻ ☺14☻(.result*=signo.)☺23☻.☺11☻
+	
+☺14☻Number☺9☻<*result, result>☺25☻ ☺14☻=☺12☻  ☺14☻number☺9☻ ☺14☻(.result=value.)☺23☻.☺11☻
 
-*14&IGNORE*7& *14&SET*9& *14&ignore*9&
 
-
-*14&END*5& *14&MyCOCOR*9
+☺14☻END☺5☻ ☺14☻Aritmetica☺9

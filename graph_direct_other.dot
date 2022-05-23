@@ -1,0 +1,51 @@
+digraph RGL__DirectedAdjacencyGraph {
+    A [
+        fontsize = 8,
+        label = A
+    ]
+
+    AB [
+        fontsize = 8,
+        label = AB
+    ]
+
+    AC [
+        fontsize = 8,
+        label = AC
+    ]
+
+    AD [
+        fontsize = 8,
+        label = AD
+    ]
+
+    A -> AB [
+        fontsize = 15,
+        label = " "
+    ]
+
+    A -> AC [
+        fontsize = 15,
+        label = 9
+    ]
+
+    A -> AD [
+        fontsize = 15,
+        label = z
+    ]
+
+    AB -> AB [
+        fontsize = 15,
+        label = " "
+    ]
+
+    AC -> AC [
+        fontsize = 15,
+        label = 9
+    ]
+
+    AD -> AD [
+        fontsize = 15,
+        label = z
+    ]
+}

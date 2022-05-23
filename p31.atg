@@ -1,0 +1,42 @@
+COMPILER Aritmetica    
+
+CHARACTERS 
+
+letter = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz". 
+digit = "0123456789" .
+tab = CHR(9).
+eol = CHR(10).
+
+TOKENS
+
+ident = letter{letter|digit} EXCEPT KEYWORDS.
+number = digit{digit}.
+PRODUCTIONS
+
+Expr = {Stat ";"}".".
+
+Stat = 							(.value=0.)
+	Expression<*value, value>		    (.puts value.)
+	.
+
+Expression<*result1, result> =		    (.result1=result2=0.)
+	Term<*result1, result1>
+	{    "+"Term<*result2, result2>		(.result1+=result2.)
+	   | "-"Term<*result2, result2>		(.result1-=result2.)
+	}							(.result=result1.)
+	.
+Term<*result, result> =				    (.result1=result2=0.)
+	Factor<*result1, result1>
+	{    "*"Factor<*result2, result2>	    (.result1*=result2.)
+	   | "/"Factor<*result2, result2>	    (.result1/=result2.)
+	}							(.result=result1.)
+	.
+	
+Factor<*result, result> =	            (.signo=1.)
+	["-"(.signo = -1.)]
+	( Number<*result, result> | "("Expression<*result, result>")") (.result*=signo.).
+	
+Number<*result, result> =  number (.result=value.).
+
+
+END Aritmetica

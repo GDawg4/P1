@@ -1,6 +1,5 @@
 COMPILER MyCOCOR
 CHARACTERS
-(.---Comentario---.)
 
 letter= "ABCDEFGHIJKLMNÑOPQRSTUVWXYZabcdefghijklmnñopqrstuvwxyz".
 digit= "0123456789".
@@ -11,9 +10,15 @@ tab = CHR(9).
 ignore = cr+lf+tab.
 comillas = CHR(34).
 stringletter = ANY-comillas-ignore.
+test = CHR(34)..CHR(350).
 
 operadores ="+-=()[]{}|.".
 MyANY = ANY-operadores.
+
+KEYWORDS
+
+while = "while".
+do = "do".
 
 TOKENS
 
@@ -27,6 +32,8 @@ charinterval = "CHR("digit{digit}")""..""CHR("digit{digit}")".
 nontoken = MyANY.
 startcode ="(.".
 endcode=".)".
+
+operadores = operadores.
 
 IGNORE SET ignore
 
