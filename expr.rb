@@ -16,3 +16,4 @@ checked = reg_ex.check_string_direct(string_to_check)
 graph, names = reg_ex.graph_direct
 create_graph(graph, names, 'graph_direct_other')
 puts "Result: #{checked}"
+File.open('parser_tokens.txt', 'w') { |f| f.write(checked.map { |token| token.join('☺') }.join('☻')) }

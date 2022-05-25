@@ -33,7 +33,7 @@ class ParseState
     if @children.empty?
       puts " "*space + "#{@name}\n"
     else
-      puts " "*space + "#{@name} #{@function} \n"
+      puts " "*space + "#{@name} #{@first} \n"
       if @children.any?
         @children.each do |child|
           child.print_children(space + 2)
@@ -85,7 +85,7 @@ class ParseState
       @first = [@name]
       @first
     elsif ['Symbol', 'ident', 'string', 'char'].include? @name
-      @first = @children[0].first
+      @first = ['Symbol', 'ident'].include?(@name) ? @children[0].first : [@children[0].first[0][1..-2]]
       @first
     elsif @name == 'ProductionFactor'
       if @children.length < 3
@@ -123,9 +123,9 @@ class ParseState
     if @children.empty?
       @function = @name
       @function
-    elsif @children.length == 1
+    elsif @children.length == 1 && @name != "ProductionFactor"
       if @name == "ident"
-        @function += "#{@children[0].function}"
+        @function += /[[:upper:]]/.match(@children[0].function[0]) ? @children[0].function : "consume('#{@children[0].function}')"
       elsif @name == "string"
         @function += "\nconsume(#{@children[0].function})\n"
       elsif @name == "SemAction"
@@ -136,12 +136,16 @@ class ParseState
       @function
     elsif @name == "ProductionFactor"
       if @children.length == 1
-        @function += "#{@children[0].function}()\n"
+        if @children[0].name == 'Symbol' && @children[0].children[0].name == 'ident' && /[[:upper:]]/.match(@children[0].children[0].children[0].name[0])
+          @function += "#{@children[0].function}()\n"
+        else
+          @function += "#{@children[0].function}\n"
+        end
         @function
       elsif @children.length == 2
         base = @children[1].function[1..-2]
-        split = base.split(',')
-        if split[0].include? '*'
+        split = base.length > 0 ? base.split(',') : []
+        if split.length > 0 && split[0].include?('*')
           @function += "#{split[0][1..-1]}="
           split.slice!(0)
         end
@@ -150,11 +154,13 @@ class ParseState
         @function
       elsif @children.length == 3
         if @children[0].name == '{'
-          puts "Checking first #{@children[1].first.map{|first| first[0] == '"' ? first : firsts_flat[first] ? firsts_flat[first].flatten : first }.flatten}"
-          @function << "while #{@children[1].first.map{|first| first[0] == '"' ? first : firsts_flat[first] ? firsts_flat[first].flatten : first }.flatten}.contains? lookAhead\n"
+          @function << "while #{@children[1].first.map{|first| first[0] == '"' ? first : firsts_flat[first] ? firsts_flat[first].flatten : first }.flatten}.include? lookAhead\n"
+        end
+        if @children[0].name == '['
+          @function << "if #{@children[1].first.map{|first| first[0] == '"' ? first : firsts_flat[first] ? firsts_flat[first].flatten : first }.flatten}.include? lookAhead\n"
         end
         @function += @children[1].function
-        if @children[2].name == '}'
+        if ['}', ']'].include? @children[2].name
           @function << "end\n"
         end
         @function
@@ -165,9 +171,9 @@ class ParseState
     elsif @name == "ProductionExpression"
       i = 0
       if @children.length > 1
-        @function += "case lookahead\n"
+        @function += "case lookAhead\n"
         while i < @children.length
-          @function += "when #{@children[i].first.map{|first| first[0] == '"' ? first : firsts_flat[first] ? firsts_flat[first].flatten : first }.flatten.join(',')}\n"
+          @function += "when '#{@children[i].first.map{|first| first[0] == '"' ? first : firsts_flat[first] ? firsts_flat[first].flatten : first }.flatten.join(',')}'\n"
           @function += "#{@children[i].function}\n"
           i += 2
         end 

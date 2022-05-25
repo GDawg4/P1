@@ -36,7 +36,8 @@ Factor<*result, result> =	            (.signo=1.)
 	["-"(.signo = -1.)]
 	( Number<*result, result> | "("Expression<*result, result>")") (.result*=signo.).
 	
-Number<*result, result> =  number (.result=value.).
+Number<*result, result> =   (.result=firstToken.to_i .)
+ 	number .
 
 
 END Aritmetica

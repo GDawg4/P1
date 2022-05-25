@@ -36,7 +36,8 @@ COMPILER☺0☻ ☺14☻Aritmetica☺9☻
 	☺14☻[☺20☻"-"☺15☻(.signo = -1.)☺23☻]☺21☻
 	☺14☻(☺28☻ ☺14☻Number☺9☻<*result, result>☺25☻ ☺14☻|☺22☻ ☺14☻"("☺15☻Expression☺9☻<*result, result>☺25☻")"☺15☻)☺29☻ ☺14☻(.result*=signo.)☺23☻.☺11☻
 	
-☺14☻Number☺9☻<*result, result>☺25☻ ☺14☻=☺12☻  ☺14☻number☺9☻ ☺14☻(.result=value.)☺23☻.☺11☻
+☺14☻Number☺9☻<*result, result>☺25☻ ☺14☻=☺12☻   ☺14☻(.result=firstToken.to_i .)☺23☻
+ 	☺14☻number☺9☻ ☺14☻.☺11☻
 
 
 ☺14☻END☺5☻ ☺14☻Aritmetica☺9

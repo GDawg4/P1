@@ -248,6 +248,8 @@ class Parser
     if is_attribute(peek_first)
       inner_token.add_child(ParseState.new(first_lex))
       advance
+    else
+      inner_token.add_child(ParseState.new('<>'))
     end
     inner_token
   end
@@ -411,6 +413,7 @@ sets_f.transform_values! { |value| "ß#{value.each_char.map(&:to_s).join('%')}Ô
 keywords_f = {}
 keywords.each { |keyword| keywords_f[keyword[0]] = keyword[2] }
 
+tokens_list = []
 tokens_f = {}
 has_except = {}
 tokens.each_with_index do |token, i|
@@ -419,6 +422,7 @@ tokens.each_with_index do |token, i|
   changed =  (token[2..decl_range-1].map do |element|
     ['"'].include?(element[0]) ? "ß#{element.tr('"', '')}Ô" : ['ß', 'Ô', '{', '}', '[', ']', '%'].include?(element[0]) ? element.tr('"', '') : sets_f[element]
   end)
+  tokens_list << token[0]
   tokens_f[token[0]] = changed.join('')
 end
 
@@ -454,7 +458,8 @@ instructions_to_write = [
   'checked = reg_ex.check_string_direct(string_to_check)',
   'graph, names = reg_ex.graph_direct',
   "create_graph(graph, names, 'graph_direct_other')",
-  'puts "Result: #{checked}"'
+  'puts "Result: #{checked}"',
+  "File.open('parser_tokens.txt', 'w') { |f| f.write(checked.map { |token| token.join('☺') }.join('☻')) }"
 
 ]
 File.open('expr.rb', 'w') do |f|
@@ -473,6 +478,16 @@ descent_to_write = [
   "class Descender",
   "\n",
   "\tdef initialize",
+  "\t\tfile = File.open('parser_tokens.txt')",
+  "\t\t@tokens = file.read.split('☻').map do |token|",
+  "\t\ttoken.split('☺').map.with_index do |s, i|",
+  "\t\t\ts == 'nil' ? nil : i.zero? ? s : s.to_i",
+  "\t\t\tend",
+  "\t\tend.reject! { |j| [0].include?(j[1]) }",
+  "\t\tfile.close",
+  "\t\tfile = File.open('tokens_list.txt')",
+  "\t\t@tokens_key = file.read.split('☺')",
+  "\t\tfile.close",
   "\t\t@tokens = @tokens.map {|token| token[1].nil? ? token : [token[0], @tokens_key[token[1]]]}",
   "\t\tputs \"Tokens \#{@tokens}\"",
   "\tend",
@@ -485,6 +500,9 @@ descent_to_write = [
   "\tdef lookAhead",
   "\t\t@tokens[0][1].nil? ? @tokens[0][0] : @tokens[0][1]",
   "\tend",
+  "\tdef firstToken",
+  "\t\t@tokens[0][0]",
+	"\tend",
   "\n",
 ]
 productions.reverse.each.with_index do |production, i|
@@ -499,7 +517,6 @@ productions.each.with_index do |production, i|
   real_start = [start[i], 2].min+1
   parameters = production.children[real_start-2].name == 'Attributes' ? production.children[real_start-2].drill_down[0][1..-2].split(','): []
   return_value = ''
-  puts "Parameters #{parameters}"
   if parameters.any? && parameters[0].include?('*')
     return_value = "return #{parameters[0][1..-1]}"
     parameters.slice!(0)
@@ -507,11 +524,13 @@ productions.each.with_index do |production, i|
   production.children[real_start].create_function
   descent_to_write << "\t#{production.children[real_start].get_function(names[i], parameters.join(','), return_value)}"
 end
-puts "#{starts}"
+# parser.root.print_children(0)
+# puts "#{starts}"
 descent_to_write << "end"
 descent_to_write << "desc = Descender.new"
-descent_to_write << "puts \"\#{desc.consume('number')}\""
-descent_to_write << "puts \"\#{desc.consume('+')}\""
+descent_to_write << "desc.Expr()"
 File.open('descent.rb', 'w') do |f|
   f.puts(descent_to_write)
 end
+
+File.open('tokens_list.txt', 'w') {|f| f.write(tokens_list.join('☺'))}

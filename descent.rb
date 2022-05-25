@@ -1,120 +1,168 @@
 class Descender
-  def initialize
-    @tokens = [['1', 1], ['+', nil], ['2', 1], ['+', nil], ['3', 1], [';', nil], ['.', nil], ['', 0]]
-    @tokens_key = [
-      'ident',
-      'number'
-    ]
-    @tokens = @tokens.map {|token| token[1].nil? ? token : [token[0], @tokens_key[token[1]]]}
-    puts "Tokens #{@tokens}"
-  end
 
-  def consume(token)
-    return_value = lookAhead == token ? @tokens[0][0] : 0
-    @tokens.shift
-    return_value
-  end
+	def initialize
+		file = File.open('parser_tokens.txt')
+		@tokens = file.read.split('☻').map do |token|
+		token.split('☺').map.with_index do |s, i|
+			s == 'nil' ? nil : i.zero? ? s : s.to_i
+			end
+		end.reject! { |j| [0].include?(j[1]) }
+		file.close
+		file = File.open('tokens_list.txt')
+		@tokens_key = file.read.split('☺')
+		file.close
+		@tokens = @tokens.map {|token| token[1].nil? ? token : [token[0], @tokens_key[token[1]]]}
+		puts "Tokens #{@tokens}"
+	end
 
-  def lookAhead
-    @tokens[0][1].nil? ? @tokens[0][0] : @tokens[0][1]
-  end
+	def consume(token)
+		return_value = lookAhead == token ? @tokens[0][0] : 0
+		@tokens.shift
+		return_value
+	end
+	def lookAhead
+		@tokens[0][1].nil? ? @tokens[0][0] : @tokens[0][1]
+	end
+	def firstToken
+		@tokens[0][0]
+	end
 
-  def Expr
-    while ['"-"', 'number', '"("'].include? lookAhead
-      Stat()
-      consume(';')
-    end
+	def Expr()
+while ["-", "number", "("].include? lookAhead
+Stat()
 
-    consume('.')
-  end
+consume(";")
 
-  def Stat
-    value = 0
-    value = Expression(value)
-
-    puts value
-  end
-
-  def Expression(result)
-    result1 = result2 = 0
-    result1 = Term(result1)
-    while ['"+"', '"-"'].include? lookAhead
-      case lookAhead
-      when '+'
-
-        consume('+')
-        result2 = Term(result2)
-
-        result1 += result2
-
-      when '-'
-
-        consume('-')
-        result2 = Term(result2)
-
-        result1 -= result2
-
-      end
-    end
-
-    result = result1
-
-    result1
-  end
-
-  def Term(_result)
-    result1 = result2 = 0
-    result1 = Factor(result1)
-    while ['"*"', '"/"'].include? lookAhead
-      case lookAhead
-      when '*'
-
-        consume('*')
-        result2 = Factor(result2)
-
-        result1 *= result2
-
-      when '/'
-
-        consume('/')
-        result2 = Factor(result2)
-
-        result1 /= result2
-
-      end
-    end
-
-    result1
-  end
-
-  def Factor(result)
-    signo = 1
-
-    consume('-')
-
-    signo = -1
-    case lookAhead
-    when 'number'
-      result = Number(result)
-
-    when '('
-
-      consume('(')
-      result = Expression(result)
-
-      consume(')')
-
-    end
-
-    result *= signo
-
-    result
-  end
-
-  def Number(_result)
-    consume('number')
-  end
 end
 
+consume(".")
+
+
+
+end
+
+	def Stat()
+
+value=0
+
+value=Expression( value)
+
+puts value
+
+
+
+end
+
+	def Expression( result)
+
+result1=result2=0
+
+result1=Term( result1)
+while ["+", "-"].include? lookAhead
+case lookAhead
+when '+'
+
+consume("+")
+
+result2=Term( result2)
+
+result1+=result2
+
+
+when '-'
+
+consume("-")
+
+result2=Term( result2)
+
+result1-=result2
+
+
+end
+end
+
+result=result1
+
+
+return result1
+end
+
+	def Term( result)
+
+result1=result2=0
+
+result1=Factor( result1)
+while ["*", "/"].include? lookAhead
+case lookAhead
+when '*'
+
+consume("*")
+
+result2=Factor( result2)
+
+result1*=result2
+
+
+when '/'
+
+consume("/")
+
+result2=Factor( result2)
+
+result1/=result2
+
+
+end
+end
+
+result=result1
+
+
+return result
+end
+
+	def Factor( result)
+
+signo=1
+
+if ["-"].include? lookAhead
+
+consume("-")
+
+
+signo = -1
+
+end
+case lookAhead
+when 'number'
+result=Number( result)
+
+when '('
+
+consume("(")
+
+result=Expression( result)
+
+consume(")")
+
+
+end
+
+result*=signo
+
+
+return result
+end
+
+	def Number( result)
+
+result=firstToken.to_i 
+
+consume('number')
+
+return result
+end
+
+end
 desc = Descender.new
 desc.Expr()
