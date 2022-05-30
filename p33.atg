@@ -1,0 +1,256 @@
+COMPILER MyCOCOR
+CHARACTERS
+
+letter= "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".
+digit= "0123456789".
+
+cr = CHR(13).
+lf = CHR(10).
+tab = CHR(9).
+ignore = cr+lf+tab.
+comillas = CHR(34).
+stringletter = ANY-comillas-ignore+"<>".
+
+operadores ="+-=()[]{}|.".
+MyANY = ANY-operadores.
+
+KEYWORDS
+
+Characters = "CHARACTERS".
+Keywords = "KEYWORDS".
+Tokens = "TOKENS".
+Productions = "PRODUCTIONS".
+Compiler = "COMPILER".
+Except = "EXCEPT".
+End = "END".
+
+TOKENS
+
+ident = letter{letter|digit} EXCEPT KEYWORDS.
+string = comillas stringletter{stringletter} comillas.
+
+char = "'"["/"]letter"'".
+charnumber = "CHR("digit{digit}")".
+charinterval = "CHR("digit{digit}")""..""CHR("digit{digit}")".
+
+nontoken = MyANY.
+startcode ="(.".
+endcode=".)".
+
+
+PRODUCTIONS
+
+MyCOCOR= 				(.compilerName = endName = 0.)
+	"COMPILER" 
+	Ident<*compilerName>		(.puts compilerName.) 
+	[Codigo]
+	Body
+	"END" Ident<*endName>	(.puts endName.) 
+.
+
+Body = 
+	Characters 
+	[Keywords] 
+	Tokens 
+	Productions  	
+.
+
+
+Characters =				(.charName = 0╝counter = 0.)
+
+	"CHARACTERS"			(.puts 'Leyendo Characters'.)
+	{
+		Ident<*charName>	(.counter+=1╝puts counter╝puts charName.)
+		"="
+		CharSet			
+		{
+			"+"CharSet
+			|
+			"-"CharSet
+		}
+		"."
+	}
+.
+			 
+Keywords = 				(.keyName = stringValue=0╝counter=0.)
+
+	"KEYWORDS"			(.puts 'Leyendo Keywords'.)
+	{
+		
+		Ident<*keyName>	(.counter+=1╝puts counter╝puts keyName.)
+		"="
+		String<*stringValue>
+		"."
+
+	}
+
+.
+
+
+Tokens =				(.tokenName = 0╝counter=0.)
+	
+	"TOKENS"			(.puts 'Leyendo Tokens'.)
+	{
+		Ident<*tokenName>	(.counter+=1╝puts counter ╝puts tokenName.)
+		"="
+		TokenExpr
+		[ExceptKeyword]
+		"."
+
+	}
+
+.
+
+
+Productions = 				(.counter = 0.)
+	
+	"PRODUCTIONS"			(.prodName = 0╝puts 'Leyendo Productions'.)
+	{
+		Ident<*prodName>	(.counter+=1╝puts counter╝puts prodName.)
+		[Atributos]
+		"="
+		[Codigo]
+		ProductionExpr
+		"."
+
+	}
+.
+
+ExceptKeyword= 
+	"EXCEPT"
+	"KEYWORDS"
+.
+
+
+ProductionExpr =
+	ProdTerm
+	{
+	"|"
+	ProdTerm
+	}
+.
+
+ProdTerm =
+	ProdFactor
+	{
+	ProdFactor
+	}
+.
+
+ProdFactor =
+	(
+	SymbolProd
+	|
+	"("ProductionExpr")"
+	|
+	"["ProductionExpr"]"
+	|
+	"{"ProductionExpr"}"
+	)
+	[Codigo]
+.
+
+
+
+SymbolProd =			(.sv = ind = 0.)
+	(
+	String<*sv>		
+	|
+	char
+	|
+	Ident<*ind>		
+	[Atributos] 
+	)
+.
+
+Codigo =
+	startcode
+	{ ANY }
+	endcode
+.
+
+Atributos =
+	"<"
+	{ANY}
+	">"
+.
+	
+
+
+TokenExpr=
+	TokenTerm
+	{
+	"|"
+	TokenTerm
+	}
+.
+
+TokenTerm=
+	TokenFactor
+	{
+	TokenFactor	
+	}
+.
+
+TokenFactor=
+	(
+	SimbolToken
+	|
+	"("TokenExpr")"
+	|
+	"["TokenExpr"]"
+	|
+	"{"TokenExpr"}"
+	)
+.
+
+SimbolToken =			(.identName = stringValue = 0.)	
+	(
+	String<*stringValue> 
+	|
+	char
+	|
+	Ident<*identName>	
+	)
+.
+
+
+
+CharSet= 			(.identName = stringValue = 0.)	
+	(
+	String<*stringValue> 
+	|
+	Char
+	|
+	"ANY"
+	|
+	Ident<*identName>	
+	)
+	
+.
+
+
+Char=
+	(
+	char
+	|
+	charnumber
+	|
+	charinterval
+	)
+.
+
+ANY = {ident|string|"="|"*"|nontoken|"+"}.
+
+
+
+String<*s>= (.s = firstToken.)
+	string		
+.
+
+Ident<*s>= (.s = firstToken.)
+	ident		
+.
+
+
+END MyCOCOR

@@ -11,7 +11,7 @@ class Descender
 		file = File.open('tokens_list.txt')
 		@tokens_key = file.read.split('☺')
 		file.close
-		@tokens = @tokens.map {|token| token[1].nil? ? token : [token[0], @tokens_key[token[1]]]}
+		@tokens = @tokens.map {|token| token[1].nil? ? token : [token[0], @tokens_key[token[1] - 1]]}
 		puts "Tokens #{@tokens}"
 	end
 
@@ -28,11 +28,17 @@ class Descender
 	end
 
 	def Expr()
-while ["-", "number", "("].include? lookAhead
+while ["-", "number", "decnumber", "("].include? lookAhead
 Stat()
 
 consume(";")
 
+while ["white"].include? lookAhead
+consume('white')
+end
+end
+while ["white"].include? lookAhead
+consume('white')
 end
 
 consume(".")
@@ -123,18 +129,18 @@ end
 
 	def Factor( result)
 
-signo=1
+sign=1
 
 if ["-"].include? lookAhead
 
 consume("-")
 
 
-signo = -1
+sign = -1
 
 end
 case lookAhead
-when 'number'
+when 'number','decnumber'
 result=Number( result)
 
 when '('
@@ -148,7 +154,7 @@ consume(")")
 
 end
 
-result*=signo
+result*=sign
 
 
 return result
@@ -156,9 +162,16 @@ end
 
 	def Number( result)
 
-result=firstToken.to_i 
+result=firstToken.to_f
 
+case lookAhead
+when 'number'
 consume('number')
+
+when 'decnumber'
+consume('decnumber')
+
+end
 
 return result
 end

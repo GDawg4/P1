@@ -526,37 +526,37 @@ digraph RGL__DirectedAdjacencyGraph {
 
     A -> AS [
         fontsize = 15,
-        label = "{"
+        label = "<"
     ]
 
     A -> AT [
         fontsize = 15,
-        label = "}"
+        label = ">"
     ]
 
     A -> AU [
         fontsize = 15,
-        label = "["
+        label = "{"
     ]
 
     A -> AV [
         fontsize = 15,
-        label = "]"
+        label = "}"
     ]
 
     A -> AW [
         fontsize = 15,
-        label = "|"
+        label = "["
     ]
 
     A -> AX [
         fontsize = 15,
-        label = "<"
+        label = "]"
     ]
 
     A -> AY [
         fontsize = 15,
-        label = ">"
+        label = "|"
     ]
 
     AB -> AC [
@@ -661,7 +661,7 @@ digraph RGL__DirectedAdjacencyGraph {
 
     AR -> AR [
         fontsize = 15,
-        label = _
+        label = "╝"
     ]
 
     AR -> BK [
@@ -669,12 +669,12 @@ digraph RGL__DirectedAdjacencyGraph {
         label = "\""
     ]
 
-    AX -> BL [
+    AS -> BL [
         fontsize = 15,
-        label = _
+        label = "╝"
     ]
 
-    AX -> BM [
+    AS -> BM [
         fontsize = 15,
         label = ">"
     ]
@@ -766,7 +766,7 @@ digraph RGL__DirectedAdjacencyGraph {
 
     BH -> BH [
         fontsize = 15,
-        label = _
+        label = "╝"
     ]
 
     BH -> BW [
@@ -781,10 +781,20 @@ digraph RGL__DirectedAdjacencyGraph {
 
     BL -> BL [
         fontsize = 15,
-        label = _
+        label = "╝"
     ]
 
     BL -> BM [
+        fontsize = 15,
+        label = ">"
+    ]
+
+    BM -> BL [
+        fontsize = 15,
+        label = "╝"
+    ]
+
+    BM -> BM [
         fontsize = 15,
         label = ">"
     ]
@@ -876,7 +886,7 @@ digraph RGL__DirectedAdjacencyGraph {
 
     BW -> BH [
         fontsize = 15,
-        label = _
+        label = "╝"
     ]
 
     BW -> CG [
@@ -966,7 +976,7 @@ digraph RGL__DirectedAdjacencyGraph {
 
     CG -> BH [
         fontsize = 15,
-        label = _
+        label = "╝"
     ]
 
     CG -> BW [

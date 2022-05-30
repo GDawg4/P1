@@ -1,43 +1,50 @@
-COMPILER☺0☻ ☺14☻Aritmetica☺9☻    
+COMPILER☺0☻ ☺14☻Double☺9☻    
 
 ☺14☻CHARACTERS☺1☻ 
 
-☺14☻letter☺9☻ ☺14☻=☺12☻ ☺14☻"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"☺15☻.☺11☻ 
-☺14☻digit☺9☻ ☺14☻=☺12☻ ☺14☻"0123456789"☺15☻ ☺14☻.☺11☻
-☺14☻tab☺9☻ ☺14☻=☺12☻ ☺14☻CHR(9)☺8☻.☺11☻
-☺14☻eol☺9☻ ☺14☻=☺12☻ ☺14☻CHR(10)☺8☻.☺11☻
+☺14☻digit☺9☻=☺12☻"0123456789"☺15☻.☺11☻
+☺14☻tab☺9☻=☺12☻CHR(9)☺8☻.☺11☻
+☺14☻eol☺9☻=☺12☻CHR(10)☺8☻.☺11☻
+☺14☻blanco☺9☻=☺12☻eol☺9☻+☺16☻CHR(13)☺8☻+☺16☻tab☺9☻.☺11☻
 
 ☺14☻TOKENS☺3☻
 
-☺14☻ident☺9☻ ☺14☻=☺12☻ ☺14☻letter☺9☻{☺17☻letter☺9☻|☺22☻digit☺9☻}☺18☻ ☺14☻EXCEPT☺6☻ ☺14☻KEYWORDS☺2☻.☺11☻
 ☺14☻number☺9☻ ☺14☻=☺12☻ ☺14☻digit☺9☻{☺17☻digit☺9☻}☺18☻.☺11☻
+☺14☻decnumber☺9☻ ☺14☻=☺12☻ ☺14☻digit☺9☻{☺17☻digit☺9☻}☺18☻"."☺15☻digit☺9☻{☺17☻digit☺9☻}☺18☻.☺11☻
+☺14☻white☺9☻ ☺14☻=☺12☻ ☺14☻blanco☺9☻{☺17☻blanco☺9☻}☺18☻.☺11☻
+
 ☺14☻PRODUCTIONS☺4☻
 
-☺14☻Expr☺9☻ ☺14☻=☺12☻ ☺14☻{☺17☻Stat☺9☻ ☺14☻";"☺15☻}☺18☻"."☺15☻.☺11☻
+☺14☻Expr☺9☻=☺12☻ ☺14☻{☺17☻Stat☺9☻ ☺14☻";"☺15☻{☺17☻white☺9☻}☺18☻}☺18☻{☺17☻white☺9☻}☺18☻"."☺15☻.☺11☻
 
 ☺14☻Stat☺9☻ ☺14☻=☺12☻ 							☺14☻(.value=0.)☺23☻
-	☺14☻Expression☺9☻<*value, value>☺25☻		    ☺14☻(.puts value.)☺23☻
+	☺14☻Expression☺9☻<*value, value>☺25☻		☺14☻(.puts value.)☺23☻
 	☺14☻.☺11☻
 
-☺14☻Expression☺9☻<*result1, result>☺25☻ ☺14☻=☺12☻		    ☺14☻(.result1=result2=0.)☺23☻
+☺14☻Expression☺9☻<*result1, result>☺25☻ ☺14☻=☺12☻			☺14☻(.result1=result2=0.)☺23☻
 	☺14☻Term☺9☻<*result1, result1>☺25☻
 	☺14☻{☺17☻    ☺14☻"+"☺15☻Term☺9☻<*result2, result2>☺25☻		☺14☻(.result1+=result2.)☺23☻
 	   ☺14☻|☺22☻ ☺14☻"-"☺15☻Term☺9☻<*result2, result2>☺25☻		☺14☻(.result1-=result2.)☺23☻
-	☺14☻}☺18☻							☺14☻(.result=result1.)☺23☻
+	☺14☻}☺18☻								☺14☻(.result=result1.)☺23☻
 	☺14☻.☺11☻
-☺14☻Term☺9☻<*result, result>☺25☻ ☺14☻=☺12☻				    ☺14☻(.result1=result2=0.)☺23☻
+
+☺14☻Term☺9☻<*result, result>☺25☻=☺12☻				☺14☻(.result1=result2=0.)☺23☻
 	☺14☻Factor☺9☻<*result1, result1>☺25☻
-	☺14☻{☺17☻    ☺14☻"*"☺15☻Factor☺9☻<*result2, result2>☺25☻	    ☺14☻(.result1*=result2.)☺23☻
-	   ☺14☻|☺22☻ ☺14☻"/"☺15☻Factor☺9☻<*result2, result2>☺25☻	    ☺14☻(.result1/=result2.)☺23☻
+	☺14☻{☺17☻    ☺14☻"*"☺15☻Factor☺9☻<*result2, result2>☺25☻	☺14☻(.result1*=result2.)☺23☻
+	   ☺14☻|☺22☻ ☺14☻"/"☺15☻Factor☺9☻<*result2, result2>☺25☻	☺14☻(.result1/=result2.)☺23☻
 	☺14☻}☺18☻							☺14☻(.result=result1.)☺23☻
 	☺14☻.☺11☻
-	
-☺14☻Factor☺9☻<*result, result>☺25☻ ☺14☻=☺12☻	            ☺14☻(.signo=1.)☺23☻
-	☺14☻[☺20☻"-"☺15☻(.signo = -1.)☺23☻]☺21☻
-	☺14☻(☺28☻ ☺14☻Number☺9☻<*result, result>☺25☻ ☺14☻|☺22☻ ☺14☻"("☺15☻Expression☺9☻<*result, result>☺25☻")"☺15☻)☺29☻ ☺14☻(.result*=signo.)☺23☻.☺11☻
-	
-☺14☻Number☺9☻<*result, result>☺25☻ ☺14☻=☺12☻   ☺14☻(.result=firstToken.to_i .)☺23☻
- 	☺14☻number☺9☻ ☺14☻.☺11☻
 
 
-☺14☻END☺5☻ ☺14☻Aritmetica☺9
+☺14☻Factor☺9☻<*result, result>☺25☻ ☺14☻=☺12☻		☺14☻(.sign=1.)☺23☻
+	☺14☻[☺20☻"-"☺15☻						☺14☻(.sign = -1.)☺23☻
+	☺14☻]☺21☻
+	☺14☻(☺28☻Number☺9☻<*result, result>☺25☻
+	 ☺14☻|☺22☻"("☺15☻Expression☺9☻<*result, result>☺25☻")"☺15☻
+	☺14☻)☺29☻							☺14☻(.result*=sign.)☺23☻
+	☺14☻.☺11☻
+
+☺14☻Number☺9☻<*result, result>☺25☻ ☺14☻=☺12☻	☺14☻(.result=firstToken.to_f.)☺23☻
+	☺14☻(☺28☻number☺9☻|☺22☻decnumber☺9☻)☺29☻
+	☺14☻.☺11☻
+☺14☻END☺5☻ ☺14☻Double☺9

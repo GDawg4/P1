@@ -130,6 +130,7 @@ class Parser
 
   def keywords
     keywords_node = ParseState.new('Keywords')
+    puts "Checking keywords #{first_lex} #{peek_first}"
     while is_ident(peek_first)
       inner_key = ParseState.new('KeywordsDecl')
       inner_key.add_child(ident)
@@ -377,7 +378,7 @@ productions = parser.root.productions
 # puts "PRODUCTIONS #{productions}"
 
 sets_f = {}
-sets_f["ANY"] = ((0..9).to_a + ('A'..'Z').to_a + ['Ñ, ñ']+ ('a'..'z').to_a + ('!'..'?').to_a + ['=', '[', ']', '|', '{', '}']).join('').gsub('%', '.').gsub('ß', '').gsub('Ô', '').gsub('µ', '').gsub(':', '').gsub('@', '').gsub('#', '').gsub('?', '')
+sets_f["ANY"] = ((0..9).to_a + ('A'..'Z').to_a + ['Ñ, ñ']+ ('a'..'z').to_a + ('!'..'?').to_a + ['=', '[', ']', '|', '{', '}', '╝']).join('').gsub('%', '.').gsub('ß', '').gsub('Ô', '').gsub('µ', '').gsub(':', '').gsub('@', '').gsub('#', '').gsub('?', '').gsub('<', '').gsub('>','')
 sets.each do |set|
   if set.length == 4
     sets_f[set[0]] = set[2] == '"' ? "\"": set[2].tr('"', '')
@@ -422,20 +423,22 @@ tokens.each_with_index do |token, i|
   changed =  (token[2..decl_range-1].map do |element|
     ['"'].include?(element[0]) ? "ß#{element.tr('"', '')}Ô" : ['ß', 'Ô', '{', '}', '[', ']', '%'].include?(element[0]) ? element.tr('"', '') : sets_f[element]
   end)
-  tokens_list << token[0]
   tokens_f[token[0]] = changed.join('')
 end
 
 final_string = ''
 tokens_f.each do |key, value|
   next if has_except[key]
+  tokens_list << key
   final_string << "ßß#{value}Ô#Ô%"
 end
 keywords_f.each do |_, value|
+  tokens_list << value.tr('"','')
   final_string << "ß#{value.tr('"','')}#Ô%"
 end
 tokens_f.each do |key, value|
   next unless has_except[key]
+  tokens_list << key
   final_string << "ßß#{value}Ô#Ô%"
 end
 # puts "Final #{final_string}"
@@ -452,7 +455,7 @@ instructions_to_write = [
   'require "rgl/dot"',
   'require "rgl/adjacency"',
   "string_to_check = \"\"",
-  'File.open("text.txt").each_char { |x| string_to_check << x }',
+  'File.open("p32.atg").each_char { |x| string_to_check << x }',
   "reg_ex = RegularExpression.new(\"ßempty#Ô%#{final_string.chop.gsub('"', '\"')}\")",
   'reg_ex.create_direct',
   'checked = reg_ex.check_string_direct(string_to_check)',
@@ -488,7 +491,7 @@ descent_to_write = [
   "\t\tfile = File.open('tokens_list.txt')",
   "\t\t@tokens_key = file.read.split('☺')",
   "\t\tfile.close",
-  "\t\t@tokens = @tokens.map {|token| token[1].nil? ? token : [token[0], @tokens_key[token[1]]]}",
+  "\t\t@tokens = @tokens.map {|token| token[1].nil? ? token : [token[0], @tokens_key[token[1] - 1]]}",
   "\t\tputs \"Tokens \#{@tokens}\"",
   "\tend",
   "\n",
@@ -528,7 +531,7 @@ end
 # puts "#{starts}"
 descent_to_write << "end"
 descent_to_write << "desc = Descender.new"
-descent_to_write << "desc.Expr()"
+descent_to_write << "desc.MyCOCOR()"
 File.open('descent.rb', 'w') do |f|
   f.puts(descent_to_write)
 end

@@ -129,7 +129,7 @@ class ParseState
       elsif @name == "string"
         @function += "\nconsume(#{@children[0].function})\n"
       elsif @name == "SemAction"
-        @function += "\n#{@children[0].function[2..-3]}\n"
+        @function += "\n#{@children[0].function[2..-3].split('╝').join("\n")}\n"
       else
         @function = "#{@children[0].function}"
       end
@@ -173,7 +173,7 @@ class ParseState
       if @children.length > 1
         @function += "case lookAhead\n"
         while i < @children.length
-          @function += "when '#{@children[i].first.map{|first| first[0] == '"' ? first : firsts_flat[first] ? firsts_flat[first].flatten : first }.flatten.join(',')}'\n"
+          @function += "when '#{@children[i].first.map{|first| first[0] == '"' ? first : firsts_flat[first] ? firsts_flat[first].flatten : first }.flatten.join(',').gsub(',', "','")}'\n"
           @function += "#{@children[i].function}\n"
           i += 2
         end 
