@@ -29,9 +29,374 @@ digraph RGL__DirectedAdjacencyGraph {
         label = AF
     ]
 
+    AG [
+        fontsize = 8,
+        label = AG
+    ]
+
+    AH [
+        fontsize = 8,
+        label = AH
+    ]
+
+    AI [
+        fontsize = 8,
+        label = AI
+    ]
+
+    AJ [
+        fontsize = 8,
+        label = AJ
+    ]
+
+    AK [
+        fontsize = 8,
+        label = AK
+    ]
+
+    AL [
+        fontsize = 8,
+        label = AL
+    ]
+
+    AM [
+        fontsize = 8,
+        label = AM
+    ]
+
+    AN [
+        fontsize = 8,
+        label = AN
+    ]
+
+    AO [
+        fontsize = 8,
+        label = AO
+    ]
+
+    AP [
+        fontsize = 8,
+        label = AP
+    ]
+
+    AQ [
+        fontsize = 8,
+        label = AQ
+    ]
+
+    AR [
+        fontsize = 8,
+        label = AR
+    ]
+
+    AS [
+        fontsize = 8,
+        label = AS
+    ]
+
+    AT [
+        fontsize = 8,
+        label = AT
+    ]
+
+    AU [
+        fontsize = 8,
+        label = AU
+    ]
+
+    AV [
+        fontsize = 8,
+        label = AV
+    ]
+
+    AW [
+        fontsize = 8,
+        label = AW
+    ]
+
+    AX [
+        fontsize = 8,
+        label = AX
+    ]
+
+    AY [
+        fontsize = 8,
+        label = AY
+    ]
+
+    AZ [
+        fontsize = 8,
+        label = AZ
+    ]
+
+    BA [
+        fontsize = 8,
+        label = BA
+    ]
+
+    BB [
+        fontsize = 8,
+        label = BB
+    ]
+
+    BC [
+        fontsize = 8,
+        label = BC
+    ]
+
+    BD [
+        fontsize = 8,
+        label = BD
+    ]
+
+    BE [
+        fontsize = 8,
+        label = BE
+    ]
+
+    BF [
+        fontsize = 8,
+        label = BF
+    ]
+
+    BG [
+        fontsize = 8,
+        label = BG
+    ]
+
+    BH [
+        fontsize = 8,
+        label = BH
+    ]
+
+    BI [
+        fontsize = 8,
+        label = BI
+    ]
+
+    BJ [
+        fontsize = 8,
+        label = BJ
+    ]
+
+    BK [
+        fontsize = 8,
+        label = BK
+    ]
+
+    BL [
+        fontsize = 8,
+        label = BL
+    ]
+
+    BM [
+        fontsize = 8,
+        label = BM
+    ]
+
+    BN [
+        fontsize = 8,
+        label = BN
+    ]
+
+    BO [
+        fontsize = 8,
+        label = BO
+    ]
+
+    BP [
+        fontsize = 8,
+        label = BP
+    ]
+
+    BQ [
+        fontsize = 8,
+        label = BQ
+    ]
+
+    BR [
+        fontsize = 8,
+        label = BR
+    ]
+
+    BS [
+        fontsize = 8,
+        label = BS
+    ]
+
+    BT [
+        fontsize = 8,
+        label = BT
+    ]
+
+    BU [
+        fontsize = 8,
+        label = BU
+    ]
+
+    BV [
+        fontsize = 8,
+        label = BV
+    ]
+
+    BW [
+        fontsize = 8,
+        label = BW
+    ]
+
+    BX [
+        fontsize = 8,
+        label = BX
+    ]
+
+    BY [
+        fontsize = 8,
+        label = BY
+    ]
+
+    BZ [
+        fontsize = 8,
+        label = BZ
+    ]
+
+    CA [
+        fontsize = 8,
+        label = CA
+    ]
+
+    CB [
+        fontsize = 8,
+        label = CB
+    ]
+
+    CC [
+        fontsize = 8,
+        label = CC
+    ]
+
+    CD [
+        fontsize = 8,
+        label = CD
+    ]
+
+    CE [
+        fontsize = 8,
+        label = CE
+    ]
+
+    CF [
+        fontsize = 8,
+        label = CF
+    ]
+
+    CG [
+        fontsize = 8,
+        label = CG
+    ]
+
+    CH [
+        fontsize = 8,
+        label = CH
+    ]
+
+    CI [
+        fontsize = 8,
+        label = CI
+    ]
+
+    CJ [
+        fontsize = 8,
+        label = CJ
+    ]
+
+    CK [
+        fontsize = 8,
+        label = CK
+    ]
+
+    CL [
+        fontsize = 8,
+        label = CL
+    ]
+
+    CM [
+        fontsize = 8,
+        label = CM
+    ]
+
+    CN [
+        fontsize = 8,
+        label = CN
+    ]
+
+    CO [
+        fontsize = 8,
+        label = CO
+    ]
+
+    CP [
+        fontsize = 8,
+        label = CP
+    ]
+
+    CQ [
+        fontsize = 8,
+        label = CQ
+    ]
+
+    CR [
+        fontsize = 8,
+        label = CR
+    ]
+
+    CS [
+        fontsize = 8,
+        label = CS
+    ]
+
+    CT [
+        fontsize = 8,
+        label = CT
+    ]
+
+    CU [
+        fontsize = 8,
+        label = CU
+    ]
+
+    CV [
+        fontsize = 8,
+        label = CV
+    ]
+
+    CW [
+        fontsize = 8,
+        label = CW
+    ]
+
+    CX [
+        fontsize = 8,
+        label = CX
+    ]
+
+    CY [
+        fontsize = 8,
+        label = CY
+    ]
+
+    CZ [
+        fontsize = 8,
+        label = CZ
+    ]
+
+    DA [
+        fontsize = 8,
+        label = DA
+    ]
+
     A -> AB [
         fontsize = 15,
-        label = "	"
+        label = ""
     ]
 
     A -> AC [
@@ -41,41 +406,676 @@ digraph RGL__DirectedAdjacencyGraph {
 
     A -> AD [
         fontsize = 15,
-        label = 9
+        label = "\""
     ]
 
-    AB -> AB [
+    A -> AE [
         fontsize = 15,
-        label = "	"
+        label = "╝"
     ]
 
-    AB -> AC [
+    A -> AF [
         fontsize = 15,
-        label = " "
+        label = z
     ]
 
-    AC -> AC [
+    A -> AG [
         fontsize = 15,
-        label = " "
+        label = C
     ]
 
-    AD -> AD [
+    A -> AH [
         fontsize = 15,
-        label = 9
+        label = E
     ]
 
-    AD -> AE [
+    A -> AI [
+        fontsize = 15,
+        label = K
+    ]
+
+    A -> AJ [
+        fontsize = 15,
+        label = P
+    ]
+
+    A -> AK [
+        fontsize = 15,
+        label = T
+    ]
+
+    A -> AL [
         fontsize = 15,
         label = "."
     ]
 
-    AE -> AF [
+    A -> AM [
+        fontsize = 15,
+        label = "'"
+    ]
+
+    A -> AN [
+        fontsize = 15,
+        label = "("
+    ]
+
+    AB -> AB [
+        fontsize = 15,
+        label = " "
+    ]
+
+    AC -> AB [
+        fontsize = 15,
+        label = " "
+    ]
+
+    AD -> AO [
+        fontsize = 15,
+        label = ">"
+    ]
+
+    AF -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    AG -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    AG -> AQ [
+        fontsize = 15,
+        label = H
+    ]
+
+    AG -> AR [
+        fontsize = 15,
+        label = O
+    ]
+
+    AH -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    AH -> AS [
+        fontsize = 15,
+        label = N
+    ]
+
+    AH -> AT [
+        fontsize = 15,
+        label = X
+    ]
+
+    AI -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    AI -> AU [
+        fontsize = 15,
+        label = E
+    ]
+
+    AJ -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    AJ -> AV [
+        fontsize = 15,
+        label = R
+    ]
+
+    AK -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    AK -> AW [
+        fontsize = 15,
+        label = O
+    ]
+
+    AL -> AX [
+        fontsize = 15,
+        label = ")"
+    ]
+
+    AM -> AY [
+        fontsize = 15,
+        label = z
+    ]
+
+    AM -> AZ [
+        fontsize = 15,
+        label = "/"
+    ]
+
+    AN -> BA [
+        fontsize = 15,
+        label = "."
+    ]
+
+    AO -> AO [
+        fontsize = 15,
+        label = ">"
+    ]
+
+    AO -> BB [
+        fontsize = 15,
+        label = "\""
+    ]
+
+    AP -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    AQ -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    AQ -> BC [
+        fontsize = 15,
+        label = A
+    ]
+
+    AQ -> BD [
+        fontsize = 15,
+        label = R
+    ]
+
+    AR -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    AR -> BE [
+        fontsize = 15,
+        label = M
+    ]
+
+    AS -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    AS -> BF [
+        fontsize = 15,
+        label = D
+    ]
+
+    AT -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    AT -> BG [
+        fontsize = 15,
+        label = C
+    ]
+
+    AU -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    AU -> BH [
+        fontsize = 15,
+        label = Y
+    ]
+
+    AV -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    AV -> BI [
+        fontsize = 15,
+        label = O
+    ]
+
+    AW -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    AW -> BJ [
+        fontsize = 15,
+        label = K
+    ]
+
+    AY -> BK [
+        fontsize = 15,
+        label = "'"
+    ]
+
+    AZ -> AY [
+        fontsize = 15,
+        label = z
+    ]
+
+    AZ -> AZ [
+        fontsize = 15,
+        label = "/"
+    ]
+
+    BC -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    BC -> BL [
+        fontsize = 15,
+        label = R
+    ]
+
+    BD -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    BD -> BM [
+        fontsize = 15,
+        label = "("
+    ]
+
+    BE -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    BE -> BN [
+        fontsize = 15,
+        label = P
+    ]
+
+    BF -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    BG -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    BG -> BO [
+        fontsize = 15,
+        label = E
+    ]
+
+    BH -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    BH -> BP [
+        fontsize = 15,
+        label = W
+    ]
+
+    BI -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    BI -> BQ [
+        fontsize = 15,
+        label = D
+    ]
+
+    BJ -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    BJ -> BR [
+        fontsize = 15,
+        label = E
+    ]
+
+    BL -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    BL -> BS [
+        fontsize = 15,
+        label = A
+    ]
+
+    BM -> BT [
         fontsize = 15,
         label = 9
     ]
 
-    AF -> AF [
+    BN -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    BN -> BU [
+        fontsize = 15,
+        label = I
+    ]
+
+    BO -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    BO -> BV [
+        fontsize = 15,
+        label = P
+    ]
+
+    BP -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    BP -> BW [
+        fontsize = 15,
+        label = O
+    ]
+
+    BQ -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    BQ -> BX [
+        fontsize = 15,
+        label = U
+    ]
+
+    BR -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    BR -> BY [
+        fontsize = 15,
+        label = N
+    ]
+
+    BS -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    BS -> BZ [
+        fontsize = 15,
+        label = C
+    ]
+
+    BT -> BT [
         fontsize = 15,
         label = 9
+    ]
+
+    BT -> CA [
+        fontsize = 15,
+        label = ")"
+    ]
+
+    BU -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    BU -> CB [
+        fontsize = 15,
+        label = L
+    ]
+
+    BV -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    BV -> CC [
+        fontsize = 15,
+        label = T
+    ]
+
+    BW -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    BW -> CD [
+        fontsize = 15,
+        label = R
+    ]
+
+    BX -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    BX -> CE [
+        fontsize = 15,
+        label = C
+    ]
+
+    BY -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    BY -> CF [
+        fontsize = 15,
+        label = S
+    ]
+
+    BZ -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    BZ -> CG [
+        fontsize = 15,
+        label = T
+    ]
+
+    CA -> CH [
+        fontsize = 15,
+        label = "."
+    ]
+
+    CB -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    CB -> CI [
+        fontsize = 15,
+        label = E
+    ]
+
+    CC -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    CD -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    CD -> CJ [
+        fontsize = 15,
+        label = D
+    ]
+
+    CE -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    CE -> CK [
+        fontsize = 15,
+        label = T
+    ]
+
+    CF -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    CG -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    CG -> CL [
+        fontsize = 15,
+        label = E
+    ]
+
+    CH -> CM [
+        fontsize = 15,
+        label = "."
+    ]
+
+    CI -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    CI -> CN [
+        fontsize = 15,
+        label = R
+    ]
+
+    CJ -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    CJ -> CO [
+        fontsize = 15,
+        label = S
+    ]
+
+    CK -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    CK -> CP [
+        fontsize = 15,
+        label = I
+    ]
+
+    CL -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    CL -> CQ [
+        fontsize = 15,
+        label = R
+    ]
+
+    CM -> CR [
+        fontsize = 15,
+        label = C
+    ]
+
+    CN -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    CO -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    CP -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    CP -> CS [
+        fontsize = 15,
+        label = O
+    ]
+
+    CQ -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    CQ -> CT [
+        fontsize = 15,
+        label = S
+    ]
+
+    CR -> CU [
+        fontsize = 15,
+        label = H
+    ]
+
+    CS -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    CS -> CV [
+        fontsize = 15,
+        label = N
+    ]
+
+    CT -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    CU -> CW [
+        fontsize = 15,
+        label = R
+    ]
+
+    CV -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    CV -> CX [
+        fontsize = 15,
+        label = S
+    ]
+
+    CW -> CY [
+        fontsize = 15,
+        label = "("
+    ]
+
+    CX -> AP [
+        fontsize = 15,
+        label = z
+    ]
+
+    CY -> CZ [
+        fontsize = 15,
+        label = 9
+    ]
+
+    CZ -> CZ [
+        fontsize = 15,
+        label = 9
+    ]
+
+    CZ -> DA [
+        fontsize = 15,
+        label = ")"
     ]
 }

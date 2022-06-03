@@ -14,7 +14,7 @@ def process_line(line)
   line
 end
 string_to_check = ''
-File.readlines("p32.atg").each { |x| string_to_check << process_line(x) }
+File.readlines("p33.atg").each { |x| string_to_check << process_line(x) }
 # \n
 # reg_ex = RegularExpression.new('ßCOMPILER#Ô%ßCHARACTERS#Ô%ßKEYWORDS#Ô%ßTOKENS#Ô%ßPRODUCTIONS#Ô%ßEND#Ô%ßEXCEPT#Ô%ßIGNORE#Ô%ßalt_char#Ô%ßident#Ô%ßnumber#Ô%ß.#Ô%ß=#Ô%ßchar#Ô%ßßemptyÔ#Ô%ßstring#Ô%ß+#Ô%ß{#Ô%ß}#Ô%ß-#Ô%ß[#Ô%ß]#Ô%ß|#Ô%ßßß(.Ôßßletter%symbol%digit%emptyÔ:Ôß.)ÔÔ#Ô%ß..#Ô%<#%>#')
 reg_ex = RegularExpression.new('ßCOMPILER#Ô%ßCHARACTERS#Ô%ßKEYWORDS#Ô%ßTOKENS#Ô%ßPRODUCTIONS#Ô%ßEND#Ô%ßEXCEPT#Ô%ßIGNORE#Ô%ßalt_char#Ô%ßident#Ô%ßnumber#Ô%ß.#Ô%ß=#Ô%ßchar#Ô%ßßemptyÔ#Ô%ßstring#Ô%ß+#Ô%ß{#Ô%ß}#Ô%ß-#Ô%ß[#Ô%ß]#Ô%ß|#Ô%ßßß(.Ôßßletter%symbol%digit% Ô:Ôß.)ÔÔ#Ô%ß..#Ô%ß<Ôßßletter%symbol%digit% Ô:Ôß>#Ô%ß<#Ô%ß>#Ô%ß(#Ô%ß)#Ô')

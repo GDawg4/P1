@@ -1,1 +1,256 @@
-(☺nil☻1.5☺2☻+☺nil☻6☺1☻)☺nil☻*☺nil☻3☺1☻;☺nil☻.☺nil☻☺0
+COMPILER☺12☻ ☺0☻MyCOCOR☺15☻
+☺0☻CHARACTERS☺8☻
+
+☺0☻letter☺15☻=☺nil☻ ☺0☻"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"☺1☻.☺☻
+☺0☻digit☺15☻=☺nil☻ ☺0☻"0123456789"☺1☻.☺☻
+
+☺0☻cr☺15☻ ☺0☻=☺nil☻ ☺0☻CHR(13)☺3☻.☺☻
+☺0☻lf☺15☻ ☺0☻=☺nil☻ ☺0☻CHR(10)☺3☻.☺☻
+☺0☻tab☺15☻ ☺0☻=☺nil☻ ☺0☻CHR(9)☺3☻.☺☻
+☺0☻ignore☺15☻ ☺0☻=☺nil☻ ☺0☻cr☺15☻+☺nil☻lf☺15☻+☺nil☻tab☺15☻.☺☻
+☺0☻comillas☺15☻ ☺0☻=☺nil☻ ☺0☻CHR(34)☺3☻.☺☻
+☺0☻stringletter☺15☻ ☺0☻=☺nil☻ ☺0☻ANY☺15☻-☺nil☻comillas☺15☻-☺nil☻ignore☺15☻+☺nil☻"<>"☺1☻.☺☻
+
+☺0☻operadores☺15☻ ☺0☻=☺nil☻"+-=()[]{}|."☺1☻.☺☻
+☺0☻MyANY☺15☻ ☺0☻=☺nil☻ ☺0☻ANY☺15☻-☺nil☻operadores☺15☻.☺☻
+
+☺0☻KEYWORDS☺9☻
+
+☺0☻Characters☺15☻ ☺0☻=☺nil☻ ☺0☻"CHARACTERS"☺1☻.☺☻
+☺0☻Keywords☺15☻ ☺0☻=☺nil☻ ☺0☻"KEYWORDS"☺1☻.☺☻
+☺0☻Tokens☺15☻ ☺0☻=☺nil☻ ☺0☻"TOKENS"☺1☻.☺☻
+☺0☻Productions☺15☻ ☺0☻=☺nil☻ ☺0☻"PRODUCTIONS"☺1☻.☺☻
+☺0☻Compiler☺15☻ ☺0☻=☺nil☻ ☺0☻"COMPILER"☺1☻.☺☻
+☺0☻Except☺15☻ ☺0☻=☺nil☻ ☺0☻"EXCEPT"☺1☻.☺☻
+☺0☻End☺15☻ ☺0☻=☺nil☻ ☺0☻"END"☺1☻.☺☻
+
+☺0☻TOKENS☺10☻
+
+☺0☻ident☺15☻ ☺0☻=☺nil☻ ☺0☻letter☺15☻{☺nil☻letter☺15☻|☺nil☻digit☺15☻}☺nil☻ ☺0☻EXCEPT☺13☻ ☺0☻KEYWORDS☺9☻.☺☻
+☺0☻string☺15☻ ☺0☻=☺nil☻ ☺0☻comillas☺15☻ ☺0☻stringletter☺15☻{☺nil☻stringletter☺15☻}☺nil☻ ☺0☻comillas☺15☻.☺☻
+
+☺0☻char☺15☻ ☺0☻=☺nil☻ ☺0☻"'"☺1☻[☺nil☻"/"☺1☻]☺nil☻letter☺15☻"'"☺1☻.☺☻
+☺0☻charnumber☺15☻ ☺0☻=☺nil☻ ☺0☻"CHR("☺1☻digit☺15☻{☺nil☻digit☺15☻}☺nil☻")"☺1☻.☺☻
+☺0☻charinterval☺15☻ ☺0☻=☺nil☻ ☺0☻"CHR("☺1☻digit☺15☻{☺nil☻digit☺15☻}☺nil☻")"☺1☻".."☺1☻"CHR("☺1☻digit☺15☻{☺nil☻digit☺15☻}☺nil☻")"☺1☻.☺☻
+
+☺0☻nontoken☺15☻ ☺0☻=☺nil☻ ☺0☻MyANY☺15☻.☺☻
+☺0☻startcode☺15☻ ☺0☻=☺nil☻"(."☺1☻.☺☻
+☺0☻endcode☺15☻=☺nil☻".)"☺1☻.☺☻
+
+
+☺0☻PRODUCTIONS☺11☻
+
+☺0☻MyCOCOR☺15☻=☺nil☻ 				☺0☻(.☺6☻compilerName☺15☻ ☺0☻=☺nil☻ ☺0☻endName☺15☻ ☺0☻=☺nil☻ ☺0☻0☺5☻.)☺7☻
+	☺0☻"COMPILER"☺1☻ 
+	☺0☻Ident☺15☻<☺nil☻*☺5☻compilerName☺15☻>☺nil☻		☺0☻(.☺6☻puts☺15☻ ☺0☻compilerName☺15☻.)☺7☻ 
+	☺0☻[☺nil☻Codigo☺15☻]☺nil☻
+	☺0☻Body☺15☻
+	☺0☻"END"☺1☻ ☺0☻Ident☺15☻<☺nil☻*☺5☻endName☺15☻>☺nil☻	☺0☻(.☺6☻puts☺15☻ ☺0☻endName☺15☻.)☺7☻ 
+☺0☻.☺☻
+
+☺0☻Body☺15☻ ☺0☻=☺nil☻ 
+	☺0☻Characters☺15☻ 
+	☺0☻[☺nil☻Keywords☺15☻]☺nil☻ 
+	☺0☻Tokens☺15☻ 
+	☺0☻Productions☺15☻  	
+☺0☻.☺☻
+
+
+☺0☻Characters☺15☻ ☺0☻=☺nil☻				☺0☻(.☺6☻charName☺15☻ ☺0☻=☺nil☻ ☺0☻0☺5☻╝☺5☻counter☺15☻ ☺0☻=☺nil☻ ☺0☻0☺5☻.)☺7☻
+
+	☺0☻"CHARACTERS"☺1☻			☺0☻(.☺6☻puts☺15☻ ☺0☻'☺5☻Leyendo☺15☻ ☺0☻Characters☺15☻'☺5☻.)☺7☻
+	☺0☻{☺nil☻
+		☺0☻Ident☺15☻<☺nil☻*☺5☻charName☺15☻>☺nil☻	☺0☻(.☺6☻counter☺15☻+☺nil☻=☺nil☻1☺5☻╝☺5☻puts☺15☻ ☺0☻counter☺15☻╝☺5☻puts☺15☻ ☺0☻charName☺15☻.)☺7☻
+		☺0☻"="☺1☻
+		☺0☻CharSet☺15☻			
+		☺0☻{☺nil☻
+			☺0☻"+"☺1☻CharSet☺15☻
+			☺0☻|☺nil☻
+			☺0☻"-"☺1☻CharSet☺15☻
+		☺0☻}☺nil☻
+		☺0☻"."☺1☻
+	☺0☻}☺nil☻
+☺0☻.☺☻
+			 
+☺0☻Keywords☺15☻ ☺0☻=☺nil☻ 				☺0☻(.☺6☻keyName☺15☻ ☺0☻=☺nil☻ ☺0☻stringValue☺15☻=☺nil☻0☺5☻╝☺5☻counter☺15☻=☺nil☻0☺5☻.)☺7☻
+
+	☺0☻"KEYWORDS"☺1☻			☺0☻(.☺6☻puts☺15☻ ☺0☻'☺5☻Leyendo☺15☻ ☺0☻Keywords☺15☻'☺5☻.)☺7☻
+	☺0☻{☺nil☻
+		
+		☺0☻Ident☺15☻<☺nil☻*☺5☻keyName☺15☻>☺nil☻	☺0☻(.☺6☻counter☺15☻+☺nil☻=☺nil☻1☺5☻╝☺5☻puts☺15☻ ☺0☻counter☺15☻╝☺5☻puts☺15☻ ☺0☻keyName☺15☻.)☺7☻
+		☺0☻"="☺1☻
+		☺0☻String☺15☻<☺nil☻*☺5☻stringValue☺15☻>☺nil☻
+		☺0☻"."☺1☻
+
+	☺0☻}☺nil☻
+
+☺0☻.☺☻
+
+
+☺0☻Tokens☺15☻ ☺0☻=☺nil☻				☺0☻(.☺6☻tokenName☺15☻ ☺0☻=☺nil☻ ☺0☻0☺5☻╝☺5☻counter☺15☻=☺nil☻0☺5☻.)☺7☻
+	
+	☺0☻"TOKENS"☺1☻			☺0☻(.☺6☻puts☺15☻ ☺0☻'☺5☻Leyendo☺15☻ ☺0☻Tokens☺15☻'☺5☻.)☺7☻
+	☺0☻{☺nil☻
+		☺0☻Ident☺15☻<☺nil☻*☺5☻tokenName☺15☻>☺nil☻	☺0☻(.☺6☻counter☺15☻+☺nil☻=☺nil☻1☺5☻╝☺5☻puts☺15☻ ☺0☻counter☺15☻ ☺0☻╝☺5☻puts☺15☻ ☺0☻tokenName☺15☻.)☺7☻
+		☺0☻"="☺1☻
+		☺0☻TokenExpr☺15☻
+		☺0☻[☺nil☻ExceptKeyword☺15☻]☺nil☻
+		☺0☻"."☺1☻
+
+	☺0☻}☺nil☻
+
+☺0☻.☺☻
+
+
+☺0☻Productions☺15☻ ☺0☻=☺nil☻ 				☺0☻(.☺6☻counter☺15☻ ☺0☻=☺nil☻ ☺0☻0☺5☻.)☺7☻
+	
+	☺0☻"PRODUCTIONS"☺1☻			☺0☻(.☺6☻prodName☺15☻ ☺0☻=☺nil☻ ☺0☻0☺5☻╝☺5☻puts☺15☻ ☺0☻'☺5☻Leyendo☺15☻ ☺0☻Productions☺15☻'☺5☻.)☺7☻
+	☺0☻{☺nil☻
+		☺0☻Ident☺15☻<☺nil☻*☺5☻prodName☺15☻>☺nil☻	☺0☻(.☺6☻counter☺15☻+☺nil☻=☺nil☻1☺5☻╝☺5☻puts☺15☻ ☺0☻counter☺15☻╝☺5☻puts☺15☻ ☺0☻prodName☺15☻.)☺7☻
+		☺0☻[☺nil☻Atributos☺15☻]☺nil☻
+		☺0☻"="☺1☻
+		☺0☻[☺nil☻Codigo☺15☻]☺nil☻
+		☺0☻ProductionExpr☺15☻
+		☺0☻"."☺1☻
+
+	☺0☻}☺nil☻
+☺0☻.☺☻
+
+☺0☻ExceptKeyword☺15☻=☺nil☻ 
+	☺0☻"EXCEPT"☺1☻
+	☺0☻"KEYWORDS"☺1☻
+☺0☻.☺☻
+
+
+☺0☻ProductionExpr☺15☻ ☺0☻=☺nil☻
+	☺0☻ProdTerm☺15☻
+	☺0☻{☺nil☻
+	☺0☻"|"☺1☻
+	☺0☻ProdTerm☺15☻
+	☺0☻}☺nil☻
+☺0☻.☺☻
+
+☺0☻ProdTerm☺15☻ ☺0☻=☺nil☻
+	☺0☻ProdFactor☺15☻
+	☺0☻{☺nil☻
+	☺0☻ProdFactor☺15☻
+	☺0☻}☺nil☻
+☺0☻.☺☻
+
+☺0☻ProdFactor☺15☻ ☺0☻=☺nil☻
+	☺0☻(☺☻
+	☺0☻SymbolProd☺15☻
+	☺0☻|☺nil☻
+	☺0☻"("☺1☻ProductionExpr☺15☻")"☺1☻
+	☺0☻|☺nil☻
+	☺0☻"["☺1☻ProductionExpr☺15☻"]"☺1☻
+	☺0☻|☺nil☻
+	☺0☻"{"☺1☻ProductionExpr☺15☻"}"☺1☻
+	☺0☻)☺nil☻
+	☺0☻[☺nil☻Codigo☺15☻]☺nil☻
+☺0☻.☺☻
+
+
+
+☺0☻SymbolProd☺15☻ ☺0☻=☺nil☻			☺0☻(.☺6☻sv☺15☻ ☺0☻=☺nil☻ ☺0☻ind☺15☻ ☺0☻=☺nil☻ ☺0☻0☺5☻.)☺7☻
+	☺0☻(☺☻
+	☺0☻String☺15☻<☺nil☻*☺5☻sv☺15☻>☺nil☻		
+	☺0☻|☺nil☻
+	☺0☻char☺15☻
+	☺0☻|☺nil☻
+	☺0☻Ident☺15☻<☺nil☻*☺5☻ind☺15☻>☺nil☻		
+	☺0☻[☺nil☻Atributos☺15☻]☺nil☻ 
+	☺0☻)☺nil☻
+☺0☻.☺☻
+
+☺0☻Codigo☺15☻ ☺0☻=☺nil☻
+	☺0☻startcode☺15☻
+	☺0☻{☺nil☻ ☺0☻ANY☺15☻ ☺0☻}☺nil☻
+	☺0☻endcode☺15☻
+☺0☻.☺☻
+
+☺0☻Atributos☺15☻ ☺0☻=☺nil☻
+	☺0☻"<"☺1☻
+	☺0☻{☺nil☻ANY☺15☻}☺nil☻
+	☺0☻">"☺1☻
+☺0☻.☺☻
+	
+
+
+☺0☻TokenExpr☺15☻=☺nil☻
+	☺0☻TokenTerm☺15☻
+	☺0☻{☺nil☻
+	☺0☻"|"☺1☻
+	☺0☻TokenTerm☺15☻
+	☺0☻}☺nil☻
+☺0☻.☺☻
+
+☺0☻TokenTerm☺15☻=☺nil☻
+	☺0☻TokenFactor☺15☻
+	☺0☻{☺nil☻
+	☺0☻TokenFactor☺15☻	
+	☺0☻}☺nil☻
+☺0☻.☺☻
+
+☺0☻TokenFactor☺15☻=☺nil☻
+	☺0☻(☺☻
+	☺0☻SimbolToken☺15☻
+	☺0☻|☺nil☻
+	☺0☻"("☺1☻TokenExpr☺15☻")"☺1☻
+	☺0☻|☺nil☻
+	☺0☻"["☺1☻TokenExpr☺15☻"]"☺1☻
+	☺0☻|☺nil☻
+	☺0☻"{"☺1☻TokenExpr☺15☻"}"☺1☻
+	☺0☻)☺nil☻
+☺0☻.☺☻
+
+☺0☻SimbolToken☺15☻ ☺0☻=☺nil☻			☺0☻(.☺6☻identName☺15☻ ☺0☻=☺nil☻ ☺0☻stringValue☺15☻ ☺0☻=☺nil☻ ☺0☻0☺5☻.)☺7☻	
+	☺0☻(☺☻
+	☺0☻String☺15☻<☺nil☻*☺5☻stringValue☺15☻>☺nil☻ 
+	☺0☻|☺nil☻
+	☺0☻char☺15☻
+	☺0☻|☺nil☻
+	☺0☻Ident☺15☻<☺nil☻*☺5☻identName☺15☻>☺nil☻	
+	☺0☻)☺nil☻
+☺0☻.☺☻
+
+
+
+☺0☻CharSet☺15☻=☺nil☻ 			☺0☻(.☺6☻identName☺15☻ ☺0☻=☺nil☻ ☺0☻stringValue☺15☻ ☺0☻=☺nil☻ ☺0☻0☺5☻.)☺7☻	
+	☺0☻(☺☻
+	☺0☻String☺15☻<☺nil☻*☺5☻stringValue☺15☻>☺nil☻ 
+	☺0☻|☺nil☻
+	☺0☻Char☺15☻
+	☺0☻|☺nil☻
+	☺0☻"ANY"☺1☻
+	☺0☻|☺nil☻
+	☺0☻Ident☺15☻<☺nil☻*☺5☻identName☺15☻>☺nil☻	
+	☺0☻)☺nil☻
+	
+☺0☻.☺☻
+
+
+☺0☻Char☺15☻=☺nil☻
+	☺0☻(☺☻
+	☺0☻char☺15☻
+	☺0☻|☺nil☻
+	☺0☻charnumber☺15☻
+	☺0☻|☺nil☻
+	☺0☻charinterval☺15☻
+	☺0☻)☺nil☻
+☺0☻.☺☻
+
+☺0☻ANY☺15☻ ☺0☻=☺nil☻ ☺0☻{☺nil☻ident☺15☻|☺nil☻string☺15☻|☺nil☻"="☺1☻|☺nil☻"*"☺1☻|☺nil☻nontoken☺15☻|☺nil☻"+"☺1☻}☺nil☻.☺☻
+
+
+
+☺0☻String☺15☻<☺nil☻*☺5☻s☺5☻>☺nil☻=☺nil☻ ☺0☻(.☺6☻s☺5☻ ☺0☻=☺nil☻ ☺0☻firstToken☺15☻.)☺7☻
+	☺0☻string☺15☻		
+☺0☻.☺☻
+
+☺0☻Ident☺15☻<☺nil☻*☺5☻s☺5☻>☺nil☻=☺nil☻ ☺0☻(.☺6☻s☺5☻ ☺0☻=☺nil☻ ☺0☻firstToken☺15☻.)☺7☻
+	☺0☻ident☺15☻		
+☺0☻.☺☻
+
+
+☺0☻END☺14☻ ☺0☻MyCOCOR☺15

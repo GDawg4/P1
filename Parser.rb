@@ -365,8 +365,8 @@ end
 
 parser = Parser.new
 parser.cocol
-# parser.root.create_first
-# parser.root.print_children(0)
+parser.root.create_first
+parser.root.print_children(0)
 sets = parser.root.sets
 keywords = parser.root.keywords
 tokens = parser.root.tokens_test
@@ -476,6 +476,8 @@ productions.map(&:flat_contents).each do |production|
   names << production[0]
 end
 
+puts "First name #{productions[0].flat_contents[0]}"
+
 starts = {}
 descent_to_write = [
   "class Descender",
@@ -531,7 +533,7 @@ end
 # puts "#{starts}"
 descent_to_write << "end"
 descent_to_write << "desc = Descender.new"
-descent_to_write << "desc.MyCOCOR()"
+descent_to_write << "desc.#{productions[0].flat_contents[0]}()"
 File.open('descent.rb', 'w') do |f|
   f.puts(descent_to_write)
 end

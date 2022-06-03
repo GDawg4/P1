@@ -177,6 +177,9 @@ class ParseState
           @function += "#{@children[i].function}\n"
           i += 2
         end 
+        @function += "else\n"
+        @function += "puts \" Error at symbol \#{firstToken} \"\n"
+        @function += "return 0 \n"
         @function += "end\n"
       end
     elsif @name == "Attributes"

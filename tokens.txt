@@ -1,50 +1,256 @@
-COMPILER☺0☻ ☺14☻Double☺9☻    
+COMPILER☺0☻ ☺14☻MyCOCOR☺9☻
+☺14☻CHARACTERS☺1☻
 
-☺14☻CHARACTERS☺1☻ 
+☺14☻letter☺9☻=☺12☻ ☺14☻"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"☺15☻.☺11☻
+☺14☻digit☺9☻=☺12☻ ☺14☻"0123456789"☺15☻.☺11☻
 
-☺14☻digit☺9☻=☺12☻"0123456789"☺15☻.☺11☻
-☺14☻tab☺9☻=☺12☻CHR(9)☺8☻.☺11☻
-☺14☻eol☺9☻=☺12☻CHR(10)☺8☻.☺11☻
-☺14☻blanco☺9☻=☺12☻eol☺9☻+☺16☻CHR(13)☺8☻+☺16☻tab☺9☻.☺11☻
+☺14☻cr☺9☻ ☺14☻=☺12☻ ☺14☻CHR(13)☺8☻.☺11☻
+☺14☻lf☺9☻ ☺14☻=☺12☻ ☺14☻CHR(10)☺8☻.☺11☻
+☺14☻tab☺9☻ ☺14☻=☺12☻ ☺14☻CHR(9)☺8☻.☺11☻
+☺14☻ignore☺9☻ ☺14☻=☺12☻ ☺14☻cr☺9☻+☺16☻lf☺9☻+☺16☻tab☺9☻.☺11☻
+☺14☻comillas☺9☻ ☺14☻=☺12☻ ☺14☻CHR(34)☺8☻.☺11☻
+☺14☻stringletter☺9☻ ☺14☻=☺12☻ ☺14☻ANY☺9☻-☺19☻comillas☺9☻-☺19☻ignore☺9☻+☺16☻"<>"☺15☻.☺11☻
+
+☺14☻operadores☺9☻ ☺14☻=☺12☻"+-=()[]{}|."☺15☻.☺11☻
+☺14☻MyANY☺9☻ ☺14☻=☺12☻ ☺14☻ANY☺9☻-☺19☻operadores☺9☻.☺11☻
+
+☺14☻KEYWORDS☺2☻
+
+☺14☻Characters☺9☻ ☺14☻=☺12☻ ☺14☻"CHARACTERS"☺15☻.☺11☻
+☺14☻Keywords☺9☻ ☺14☻=☺12☻ ☺14☻"KEYWORDS"☺15☻.☺11☻
+☺14☻Tokens☺9☻ ☺14☻=☺12☻ ☺14☻"TOKENS"☺15☻.☺11☻
+☺14☻Productions☺9☻ ☺14☻=☺12☻ ☺14☻"PRODUCTIONS"☺15☻.☺11☻
+☺14☻Compiler☺9☻ ☺14☻=☺12☻ ☺14☻"COMPILER"☺15☻.☺11☻
+☺14☻Except☺9☻ ☺14☻=☺12☻ ☺14☻"EXCEPT"☺15☻.☺11☻
+☺14☻End☺9☻ ☺14☻=☺12☻ ☺14☻"END"☺15☻.☺11☻
 
 ☺14☻TOKENS☺3☻
 
-☺14☻number☺9☻ ☺14☻=☺12☻ ☺14☻digit☺9☻{☺17☻digit☺9☻}☺18☻.☺11☻
-☺14☻decnumber☺9☻ ☺14☻=☺12☻ ☺14☻digit☺9☻{☺17☻digit☺9☻}☺18☻"."☺15☻digit☺9☻{☺17☻digit☺9☻}☺18☻.☺11☻
-☺14☻white☺9☻ ☺14☻=☺12☻ ☺14☻blanco☺9☻{☺17☻blanco☺9☻}☺18☻.☺11☻
+☺14☻ident☺9☻ ☺14☻=☺12☻ ☺14☻letter☺9☻{☺17☻letter☺9☻|☺22☻digit☺9☻}☺18☻ ☺14☻EXCEPT☺6☻ ☺14☻KEYWORDS☺2☻.☺11☻
+☺14☻string☺9☻ ☺14☻=☺12☻ ☺14☻comillas☺9☻ ☺14☻stringletter☺9☻{☺17☻stringletter☺9☻}☺18☻ ☺14☻comillas☺9☻.☺11☻
+
+☺14☻char☺9☻ ☺14☻=☺12☻ ☺14☻"'"☺15☻[☺20☻"/"☺15☻]☺21☻letter☺9☻"'"☺15☻.☺11☻
+☺14☻charnumber☺9☻ ☺14☻=☺12☻ ☺14☻"CHR("☺15☻digit☺9☻{☺17☻digit☺9☻}☺18☻")"☺15☻.☺11☻
+☺14☻charinterval☺9☻ ☺14☻=☺12☻ ☺14☻"CHR("☺15☻digit☺9☻{☺17☻digit☺9☻}☺18☻")"☺15☻".."☺15☻"CHR("☺15☻digit☺9☻{☺17☻digit☺9☻}☺18☻")"☺15☻.☺11☻
+
+☺14☻nontoken☺9☻ ☺14☻=☺12☻ ☺14☻MyANY☺9☻.☺11☻
+☺14☻startcode☺9☻ ☺14☻=☺12☻"(."☺15☻.☺11☻
+☺14☻endcode☺9☻=☺12☻".)"☺15☻.☺11☻
+
 
 ☺14☻PRODUCTIONS☺4☻
 
-☺14☻Expr☺9☻=☺12☻ ☺14☻{☺17☻Stat☺9☻ ☺14☻";"☺15☻{☺17☻white☺9☻}☺18☻}☺18☻{☺17☻white☺9☻}☺18☻"."☺15☻.☺11☻
+☺14☻MyCOCOR☺9☻=☺12☻ 				☺14☻(.compilerName = endName = 0.)☺23☻
+	☺14☻"COMPILER"☺15☻ 
+	☺14☻Ident☺9☻<*compilerName>☺25☻		☺14☻(.puts compilerName.)☺23☻ 
+	☺14☻[☺20☻Codigo☺9☻]☺21☻
+	☺14☻Body☺9☻
+	☺14☻"END"☺15☻ ☺14☻Ident☺9☻<*endName>☺25☻	☺14☻(.puts endName.)☺23☻ 
+☺14☻.☺11☻
 
-☺14☻Stat☺9☻ ☺14☻=☺12☻ 							☺14☻(.value=0.)☺23☻
-	☺14☻Expression☺9☻<*value, value>☺25☻		☺14☻(.puts value.)☺23☻
-	☺14☻.☺11☻
-
-☺14☻Expression☺9☻<*result1, result>☺25☻ ☺14☻=☺12☻			☺14☻(.result1=result2=0.)☺23☻
-	☺14☻Term☺9☻<*result1, result1>☺25☻
-	☺14☻{☺17☻    ☺14☻"+"☺15☻Term☺9☻<*result2, result2>☺25☻		☺14☻(.result1+=result2.)☺23☻
-	   ☺14☻|☺22☻ ☺14☻"-"☺15☻Term☺9☻<*result2, result2>☺25☻		☺14☻(.result1-=result2.)☺23☻
-	☺14☻}☺18☻								☺14☻(.result=result1.)☺23☻
-	☺14☻.☺11☻
-
-☺14☻Term☺9☻<*result, result>☺25☻=☺12☻				☺14☻(.result1=result2=0.)☺23☻
-	☺14☻Factor☺9☻<*result1, result1>☺25☻
-	☺14☻{☺17☻    ☺14☻"*"☺15☻Factor☺9☻<*result2, result2>☺25☻	☺14☻(.result1*=result2.)☺23☻
-	   ☺14☻|☺22☻ ☺14☻"/"☺15☻Factor☺9☻<*result2, result2>☺25☻	☺14☻(.result1/=result2.)☺23☻
-	☺14☻}☺18☻							☺14☻(.result=result1.)☺23☻
-	☺14☻.☺11☻
+☺14☻Body☺9☻ ☺14☻=☺12☻ 
+	☺14☻Characters☺9☻ 
+	☺14☻[☺20☻Keywords☺9☻]☺21☻ 
+	☺14☻Tokens☺9☻ 
+	☺14☻Productions☺9☻  	
+☺14☻.☺11☻
 
 
-☺14☻Factor☺9☻<*result, result>☺25☻ ☺14☻=☺12☻		☺14☻(.sign=1.)☺23☻
-	☺14☻[☺20☻"-"☺15☻						☺14☻(.sign = -1.)☺23☻
-	☺14☻]☺21☻
-	☺14☻(☺28☻Number☺9☻<*result, result>☺25☻
-	 ☺14☻|☺22☻"("☺15☻Expression☺9☻<*result, result>☺25☻")"☺15☻
-	☺14☻)☺29☻							☺14☻(.result*=sign.)☺23☻
-	☺14☻.☺11☻
+☺14☻Characters☺9☻ ☺14☻=☺12☻				☺14☻(.charName = 0╝counter = 0.)☺23☻
 
-☺14☻Number☺9☻<*result, result>☺25☻ ☺14☻=☺12☻	☺14☻(.result=firstToken.to_f.)☺23☻
-	☺14☻(☺28☻number☺9☻|☺22☻decnumber☺9☻)☺29☻
-	☺14☻.☺11☻
-☺14☻END☺5☻ ☺14☻Double☺9
+	☺14☻"CHARACTERS"☺15☻			☺14☻(.puts 'Leyendo Characters'.)☺23☻
+	☺14☻{☺17☻
+		☺14☻Ident☺9☻<*charName>☺25☻	☺14☻(.counter+=1╝puts counter╝puts charName.)☺23☻
+		☺14☻"="☺15☻
+		☺14☻CharSet☺9☻			
+		☺14☻{☺17☻
+			☺14☻"+"☺15☻CharSet☺9☻
+			☺14☻|☺22☻
+			☺14☻"-"☺15☻CharSet☺9☻
+		☺14☻}☺18☻
+		☺14☻"."☺15☻
+	☺14☻}☺18☻
+☺14☻.☺11☻
+			 
+☺14☻Keywords☺9☻ ☺14☻=☺12☻ 				☺14☻(.keyName = stringValue=0╝counter=0.)☺23☻
+
+	☺14☻"KEYWORDS"☺15☻			☺14☻(.puts 'Leyendo Keywords'.)☺23☻
+	☺14☻{☺17☻
+		
+		☺14☻Ident☺9☻<*keyName>☺25☻	☺14☻(.counter+=1╝puts counter╝puts keyName.)☺23☻
+		☺14☻"="☺15☻
+		☺14☻String☺9☻<*stringValue>☺25☻
+		☺14☻"."☺15☻
+
+	☺14☻}☺18☻
+
+☺14☻.☺11☻
+
+
+☺14☻Tokens☺9☻ ☺14☻=☺12☻				☺14☻(.tokenName = 0╝counter=0.)☺23☻
+	
+	☺14☻"TOKENS"☺15☻			☺14☻(.puts 'Leyendo Tokens'.)☺23☻
+	☺14☻{☺17☻
+		☺14☻Ident☺9☻<*tokenName>☺25☻	☺14☻(.counter+=1╝puts counter ╝puts tokenName.)☺23☻
+		☺14☻"="☺15☻
+		☺14☻TokenExpr☺9☻
+		☺14☻[☺20☻ExceptKeyword☺9☻]☺21☻
+		☺14☻"."☺15☻
+
+	☺14☻}☺18☻
+
+☺14☻.☺11☻
+
+
+☺14☻Productions☺9☻ ☺14☻=☺12☻ 				☺14☻(.counter = 0.)☺23☻
+	
+	☺14☻"PRODUCTIONS"☺15☻			☺14☻(.prodName = 0╝puts 'Leyendo Productions'.)☺23☻
+	☺14☻{☺17☻
+		☺14☻Ident☺9☻<*prodName>☺25☻	☺14☻(.counter+=1╝puts counter╝puts prodName.)☺23☻
+		☺14☻[☺20☻Atributos☺9☻]☺21☻
+		☺14☻"="☺15☻
+		☺14☻[☺20☻Codigo☺9☻]☺21☻
+		☺14☻ProductionExpr☺9☻
+		☺14☻"."☺15☻
+
+	☺14☻}☺18☻
+☺14☻.☺11☻
+
+☺14☻ExceptKeyword☺9☻=☺12☻ 
+	☺14☻"EXCEPT"☺15☻
+	☺14☻"KEYWORDS"☺15☻
+☺14☻.☺11☻
+
+
+☺14☻ProductionExpr☺9☻ ☺14☻=☺12☻
+	☺14☻ProdTerm☺9☻
+	☺14☻{☺17☻
+	☺14☻"|"☺15☻
+	☺14☻ProdTerm☺9☻
+	☺14☻}☺18☻
+☺14☻.☺11☻
+
+☺14☻ProdTerm☺9☻ ☺14☻=☺12☻
+	☺14☻ProdFactor☺9☻
+	☺14☻{☺17☻
+	☺14☻ProdFactor☺9☻
+	☺14☻}☺18☻
+☺14☻.☺11☻
+
+☺14☻ProdFactor☺9☻ ☺14☻=☺12☻
+	☺14☻(☺28☻
+	☺14☻SymbolProd☺9☻
+	☺14☻|☺22☻
+	☺14☻"("☺15☻ProductionExpr☺9☻")"☺15☻
+	☺14☻|☺22☻
+	☺14☻"["☺15☻ProductionExpr☺9☻"]"☺15☻
+	☺14☻|☺22☻
+	☺14☻"{"☺15☻ProductionExpr☺9☻"}"☺15☻
+	☺14☻)☺29☻
+	☺14☻[☺20☻Codigo☺9☻]☺21☻
+☺14☻.☺11☻
+
+
+
+☺14☻SymbolProd☺9☻ ☺14☻=☺12☻			☺14☻(.sv = ind = 0.)☺23☻
+	☺14☻(☺28☻
+	☺14☻String☺9☻<*sv>☺25☻		
+	☺14☻|☺22☻
+	☺14☻char☺9☻
+	☺14☻|☺22☻
+	☺14☻Ident☺9☻<*ind>☺25☻		
+	☺14☻[☺20☻Atributos☺9☻]☺21☻ 
+	☺14☻)☺29☻
+☺14☻.☺11☻
+
+☺14☻Codigo☺9☻ ☺14☻=☺12☻
+	☺14☻startcode☺9☻
+	☺14☻{☺17☻ ☺14☻ANY☺9☻ ☺14☻}☺18☻
+	☺14☻endcode☺9☻
+☺14☻.☺11☻
+
+☺14☻Atributos☺9☻ ☺14☻=☺12☻
+	☺14☻"<"☺15☻
+	☺14☻{☺17☻ANY☺9☻}☺18☻
+	☺14☻">"☺15☻
+☺14☻.☺11☻
+	
+
+
+☺14☻TokenExpr☺9☻=☺12☻
+	☺14☻TokenTerm☺9☻
+	☺14☻{☺17☻
+	☺14☻"|"☺15☻
+	☺14☻TokenTerm☺9☻
+	☺14☻}☺18☻
+☺14☻.☺11☻
+
+☺14☻TokenTerm☺9☻=☺12☻
+	☺14☻TokenFactor☺9☻
+	☺14☻{☺17☻
+	☺14☻TokenFactor☺9☻	
+	☺14☻}☺18☻
+☺14☻.☺11☻
+
+☺14☻TokenFactor☺9☻=☺12☻
+	☺14☻(☺28☻
+	☺14☻SimbolToken☺9☻
+	☺14☻|☺22☻
+	☺14☻"("☺15☻TokenExpr☺9☻")"☺15☻
+	☺14☻|☺22☻
+	☺14☻"["☺15☻TokenExpr☺9☻"]"☺15☻
+	☺14☻|☺22☻
+	☺14☻"{"☺15☻TokenExpr☺9☻"}"☺15☻
+	☺14☻)☺29☻
+☺14☻.☺11☻
+
+☺14☻SimbolToken☺9☻ ☺14☻=☺12☻			☺14☻(.identName = stringValue = 0.)☺23☻	
+	☺14☻(☺28☻
+	☺14☻String☺9☻<*stringValue>☺25☻ 
+	☺14☻|☺22☻
+	☺14☻char☺9☻
+	☺14☻|☺22☻
+	☺14☻Ident☺9☻<*identName>☺25☻	
+	☺14☻)☺29☻
+☺14☻.☺11☻
+
+
+
+☺14☻CharSet☺9☻=☺12☻ 			☺14☻(.identName = stringValue = 0.)☺23☻	
+	☺14☻(☺28☻
+	☺14☻String☺9☻<*stringValue>☺25☻ 
+	☺14☻|☺22☻
+	☺14☻Char☺9☻
+	☺14☻|☺22☻
+	☺14☻"ANY"☺15☻
+	☺14☻|☺22☻
+	☺14☻Ident☺9☻<*identName>☺25☻	
+	☺14☻)☺29☻
+	
+☺14☻.☺11☻
+
+
+☺14☻Char☺9☻=☺12☻
+	☺14☻(☺28☻
+	☺14☻char☺9☻
+	☺14☻|☺22☻
+	☺14☻charnumber☺9☻
+	☺14☻|☺22☻
+	☺14☻charinterval☺9☻
+	☺14☻)☺29☻
+☺14☻.☺11☻
+
+☺14☻ANY☺9☻ ☺14☻=☺12☻ ☺14☻{☺17☻ident☺9☻|☺22☻string☺9☻|☺22☻"="☺15☻|☺22☻"*"☺15☻|☺22☻nontoken☺9☻|☺22☻"+"☺15☻}☺18☻.☺11☻
+
+
+
+☺14☻String☺9☻<*s>☺25☻=☺12☻ ☺14☻(.s = firstToken.)☺23☻
+	☺14☻string☺9☻		
+☺14☻.☺11☻
+
+☺14☻Ident☺9☻<*s>☺25☻=☺12☻ ☺14☻(.s = firstToken.)☺23☻
+	☺14☻ident☺9☻		
+☺14☻.☺11☻
+
+
+☺14☻END☺5☻ ☺14☻MyCOCOR☺9

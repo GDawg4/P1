@@ -1,1 +1,1 @@
-number☺decnumber☺white
+string☺char☺charnumber☺charinterval☺nontoken☺startcode☺endcode☺CHARACTERS☺KEYWORDS☺TOKENS☺PRODUCTIONS☺COMPILER☺EXCEPT☺END☺ident

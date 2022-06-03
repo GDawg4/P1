@@ -40,7 +40,7 @@ endcode=".)".
 
 PRODUCTIONS
 
-MyCOCOR= 				(.compilerName = endName = 0.)
+MyCOCOR = 				(.compilerName = endName = 0.)
 	"COMPILER" 
 	Ident<*compilerName>		(.puts compilerName.) 
 	[Codigo]
